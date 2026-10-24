@@ -180,7 +180,7 @@ body::after {
 
 .media__art {
   position: absolute;
-  inset: 0;
+  inset: 0 0 2.25rem;
 }
 
 .media__art > svg,
@@ -189,11 +189,30 @@ body::after {
   height: 100%;
 }
 
+.motif-label {
+  font-family: var(--font-mono);
+  font-size: 22px;
+}
+
+.motif-figure {
+  font-family: var(--font-display);
+  font-size: 56px;
+}
+
+.motif-nt {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 500;
+}
+
 .media__label {
   position: absolute;
   left: 1rem;
-  bottom: 0.875rem;
+  bottom: 0.7rem;
   right: 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: var(--grey);
   font-family: var(--font-mono);
   font-size: 0.75rem;

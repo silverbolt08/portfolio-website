@@ -112,7 +112,7 @@ export interface SiteContent {
   manifesto: { heading: string; text: string };
   stats: { heading: string; items: Stat[] };
   skills: { heading: string; groups: { group: string; items: string[] }[]; marqueeRows: [string[], string[]] };
-  work: { heading: string; projects: Project[] };
+  work: { heading: string; intro: string; projects: Project[] };
   experience: { heading: string; entries: ExperienceEntry[]; achievementsHeading: string; achievements: Achievement[] };
   minorWorks: { heading: string; items: MinorWork[] };
   contactSection: { heading: string; headline: string[]; intro: string; footerMarquee: string[]; credit: string };

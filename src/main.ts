@@ -14,7 +14,6 @@ import { conditions, type Cleanup, type Conditions } from './lib/media';
 import { startSmoothScroll } from './lib/scroll';
 import { loadFonts } from './lib/fonts';
 import { magnetic } from './lib/magnetic';
-import { placeholder } from './lib/placeholder';
 import { renderMonogram, initMonogram } from './ui/monogram';
 import { renderMenuButton, renderMenu, initMenu, animateMenu } from './ui/menu';
 import { renderClock, initClock } from './ui/clock';
@@ -27,6 +26,8 @@ import { hero, prepareHero, heroIntro } from './sections/hero';
 import { manifesto } from './sections/manifesto';
 import { stats } from './sections/stats';
 import { skills } from './sections/skills';
+import { work, openFromHash } from './sections/work';
+import { renderCaseRoot } from './sections/case-study';
 
 const c = content;
 
@@ -37,7 +38,7 @@ const sections: Section[] = [
   manifesto,
   stats,
   skills,
-  stub('work', c.work.heading, `<div class="stub__media" data-cursor="VIEW">${placeholder(c.work.projects[0].visual)}</div>`),
+  work,
   stub('experience', c.experience.heading),
   stub('minor-works', c.minorWorks.heading, `<button class="stub__btn" type="button" data-cursor="DRAG">Drag target</button>`),
   stub(
@@ -54,7 +55,7 @@ function render() {
     ${renderMonogram(c)}
     ${renderMenuButton()}
     <div class="hud-row">${renderClock(c)}${renderProgress()}${renderCounter(c.nav.length)}</div>`;
-  document.getElementById('overlays')!.innerHTML = renderMenu(c) + renderCursor();
+  document.getElementById('overlays')!.innerHTML = renderMenu(c) + renderCaseRoot() + renderCursor();
   document.getElementById('main')!.innerHTML = sections.map((s) => s.render(c)).join('');
 }
 
@@ -100,6 +101,7 @@ async function boot() {
   document.documentElement.classList.remove('is-loading');
   document.documentElement.classList.add('is-ready');
   animate();
+  openFromHash();
 }
 
 boot();

@@ -1,5 +1,14 @@
 import type { Media } from '../types';
 import { esc } from './html';
+import { drawMotif } from './motifs';
+
+let instance = 0;
+
+/** The same drawing can appear twice (card and case study), so its SVG ids get a per-instance suffix. */
+const uniqueIds = (svg: string): string => {
+  const n = ++instance;
+  return svg.replace(/id="([^"]+)"/g, `id="$1-${n}"`).replace(/url\(#([^)]+)\)/g, `url(#$1-${n})`);
+};
 
 /**
  * Renders a Media entry. With a `src` it is the real image or video;
@@ -16,7 +25,7 @@ export function placeholder(media: Media, className = ''): string {
     return `<figure class="${cls}" style="aspect-ratio:${ratio}"><video src="${esc(media.src)}"${poster} muted loop playsinline autoplay preload="none" aria-label="${esc(media.alt)}"></video></figure>`;
   }
   return `<figure class="${cls} media--placeholder" style="aspect-ratio:${ratio}" data-motif="${media.motif ?? ''}" role="img" aria-label="${esc(media.alt)}">
-    <div class="media__art" aria-hidden="true"></div>
+    <div class="media__art" aria-hidden="true">${uniqueIds(drawMotif(media.motif))}</div>
     <figcaption class="media__label" aria-hidden="true">Placeholder: ${esc(media.label)}</figcaption>
   </figure>`;
 }

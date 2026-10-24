@@ -1,0 +1,196 @@
+.work {
+  padding-top: var(--section-gap);
+}
+
+.work__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: var(--gutter);
+  align-items: end;
+  padding: 0 var(--gutter) clamp(64px, 8vw, 120px);
+}
+
+.work__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 400;
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+}
+
+.work__intro {
+  max-width: 30ch;
+  font-size: var(--fs-lead);
+  line-height: 1.35;
+}
+
+/* The stack: every card sticks at the top; later cards slide over earlier ones */
+.card {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 0 var(--gutter) var(--gutter);
+}
+
+.card__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas:
+    'top visual'
+    'body visual';
+  column-gap: calc(var(--gutter) * 2);
+  height: 100%;
+  padding: clamp(72px, 9vh, 104px) calc(var(--gutter) * 1.5) calc(var(--gutter) * 2.5);
+  background: var(--ink-2);
+  transform-origin: 50% 0%;
+}
+
+.card__dim {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card__top {
+  grid-area: top;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.card__mask {
+  display: block;
+  overflow: clip;
+}
+
+.card__index {
+  display: block;
+  color: transparent;
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 15vw, 17rem);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  -webkit-text-stroke: 1.5px var(--grey);
+  padding-top: 0.04em;
+}
+
+.card__year {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--grey);
+}
+
+.card__body {
+  grid-area: body;
+  align-self: end;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.card__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 5.4vw, 6.5rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+/* The whole card is the link */
+.card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.card__link:focus-visible {
+  outline: none;
+}
+
+.card__link:focus-visible::after {
+  outline: 2px solid var(--focus);
+  outline-offset: -6px;
+}
+
+.card__outcome {
+  max-width: 38ch;
+  font-size: var(--fs-lead);
+  line-height: 1.35;
+}
+
+.card__tags,
+.case__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  color: var(--grey);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+}
+
+.card__visual {
+  grid-area: visual;
+  align-self: center;
+  overflow: hidden;
+}
+
+.card__visual .media {
+  transition: transform 1s var(--ease-out);
+}
+
+.card:hover .card__visual .media {
+  transform: scale(1.03);
+}
+
+@media (max-width: 767.98px) {
+  .work__head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas:
+      'top'
+      'visual'
+      'body';
+    row-gap: 1.5rem;
+    padding: 72px var(--gutter) calc(var(--gutter) * 2);
+  }
+
+  .card__index {
+    font-size: 5.5rem;
+  }
+
+  /* Taller crop on a phone, so the card has no empty middle (the drawings crop with 'slice') */
+  .card__visual .media {
+    aspect-ratio: 4 / 5 !important;
+    max-height: 46svh;
+    width: 100%;
+  }
+
+  .card__title {
+    font-size: clamp(2.25rem, 10vw, 3.25rem);
+  }
+
+  .card__outcome {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+    margin-bottom: var(--gutter);
+  }
+
+  .card__visual .media {
+    transition: none;
+  }
+}

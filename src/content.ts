@@ -102,6 +102,7 @@ export const content: SiteContent = {
 
   work: {
     heading: 'Selected work',
+    intro: 'Six projects, from multi-agent pipelines in production to gene expression read one cell at a time.',
     // Case-study prose below is a draft assembled from the brief's facts. Replace with the full write-ups.
     projects: [
       {

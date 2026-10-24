@@ -41,6 +41,8 @@ export const scroll = {
   },
   to(target: number | HTMLElement, opts: ScrollToOptions = {}) {
     if (lenis) {
+      // Lenis caches the scroll limit; pins added since the last measure would clamp a jump short.
+      lenis.resize();
       lenis.scrollTo(target, {
         immediate: opts.immediate,
         duration: opts.duration,
