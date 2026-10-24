@@ -28,6 +28,7 @@ import { stats } from './sections/stats';
 import { skills } from './sections/skills';
 import { work, openFromHash } from './sections/work';
 import { renderCaseRoot } from './sections/case-study';
+import { experience } from './sections/experience';
 
 const c = content;
 
@@ -39,7 +40,7 @@ const sections: Section[] = [
   stats,
   skills,
   work,
-  stub('experience', c.experience.heading),
+  experience,
   stub('minor-works', c.minorWorks.heading, `<button class="stub__btn" type="button" data-cursor="DRAG">Drag target</button>`),
   stub(
     'contact',
