@@ -15,3 +15,10 @@ export const $ = <T extends Element = HTMLElement>(sel: string, root: ParentNode
 
 export const $$ = <T extends Element = HTMLElement>(sel: string, root: ParentNode = document): T[] =>
   Array.from(root.querySelectorAll<T>(sel));
+
+/**
+ * Text that will be split for animation: a readable copy for screen readers, and an aria-hidden copy to split.
+ * (aria-label is not allowed on <p> and generic elements, so SplitText's own aria handling can't be used there.)
+ */
+export const srPair = (readable: string, visualHtml: string, cls: string): string =>
+  `<span class="sr-only">${esc(readable)}</span><span class="${cls}" aria-hidden="true">${visualHtml}</span>`;

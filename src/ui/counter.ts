@@ -36,16 +36,23 @@ export function animateCounter(ids: string[], c: Conditions): Cleanup {
       .fromTo(cur, { yPercent: 100 * dir }, { yPercent: 0, duration: 0.5, ease: 'expo.out' });
   };
 
-  ids.forEach((id, i) => {
-    const next = ids[i + 1];
-    ScrollTrigger.create({
-      id: `counter-${id}`,
-      trigger: `#${id}`,
-      start: 'top center',
-      endTrigger: next ? `#${next}` : `#${id}`,
-      end: next ? 'top center' : 'bottom center',
-      onToggle: (self) => self.isActive && show(i, self.direction),
-    });
+  // Only starts: they are pin-aware, while endTrigger positions ignore earlier pins' spacing.
+  // Each callback recounts from the scroll position, so a menu jump across many sections lands right.
+  const triggers: ScrollTrigger[] = [];
+  const sync = (dir: number) => {
+    const y = window.scrollY;
+    show(triggers.filter((t) => y >= t.start).length, dir);
+  };
+  ids.slice(1).forEach((id) => {
+    triggers.push(
+      ScrollTrigger.create({
+        id: `counter-${id}`,
+        trigger: `#${id}`,
+        start: 'top center',
+        onEnter: () => sync(1),
+        onLeaveBack: () => sync(-1),
+      }),
+    );
   });
 
   gsap.fromTo(

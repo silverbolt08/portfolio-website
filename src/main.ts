@@ -24,6 +24,9 @@ import type { Section } from './sections/section';
 import { stub } from './sections/stub';
 import { runPreloader } from './sections/preloader';
 import { hero, prepareHero, heroIntro } from './sections/hero';
+import { manifesto } from './sections/manifesto';
+import { stats } from './sections/stats';
+import { skills } from './sections/skills';
 
 const c = content;
 
@@ -31,9 +34,9 @@ if (import.meta.env.DEV) Object.assign(window, { gsap, ScrollTrigger });
 
 const sections: Section[] = [
   hero,
-  stub('manifesto', c.manifesto.heading),
-  stub('stats', c.stats.heading),
-  stub('skills', c.skills.heading),
+  manifesto,
+  stats,
+  skills,
   stub('work', c.work.heading, `<div class="stub__media" data-cursor="VIEW">${placeholder(c.work.projects[0].visual)}</div>`),
   stub('experience', c.experience.heading),
   stub('minor-works', c.minorWorks.heading, `<button class="stub__btn" type="button" data-cursor="DRAG">Drag target</button>`),

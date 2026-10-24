@@ -1,0 +1,131 @@
+.stats {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 100svh;
+  padding: calc(var(--gutter) * 5) var(--gutter) calc(var(--gutter) + 4rem);
+}
+
+.stats__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4rem var(--gutter);
+}
+
+.stat__visual {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  column-gap: calc(var(--gutter) * 2);
+}
+
+.stat__mask {
+  overflow: clip;
+  padding-top: 0.08em;
+}
+
+.stat__num {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 11vw, 12rem);
+  line-height: 0.84;
+  letter-spacing: var(--track-display);
+  white-space: nowrap;
+  transform-origin: left bottom;
+}
+
+.stat__suffix {
+  font-style: italic;
+}
+
+.stat__flash {
+  position: absolute;
+  inset: 0;
+  color: var(--gold);
+  opacity: 0;
+}
+
+.stat__mask--label {
+  padding-bottom: 0.2em;
+}
+
+.stat__label {
+  max-width: 15ch;
+  font-size: var(--fs-lead);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.stats__ticks {
+  display: none;
+}
+
+/* Staged (motion): one stat at a time, all in the same place, very large */
+.stats.is-staged {
+  align-content: end;
+}
+
+.stats.is-staged .stats__list {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.stats.is-staged .stat {
+  grid-area: 1 / 1;
+}
+
+.stats.is-staged .stat__num {
+  font-size: min(30vw, 50svh);
+  line-height: 0.82;
+}
+
+.stats.is-staged .stat__label {
+  font-size: var(--fs-statement);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.stats.is-staged .stats__ticks {
+  position: absolute;
+  top: calc(var(--gutter) * 4);
+  left: var(--gutter);
+  right: var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.stats__ticks li {
+  height: 2px;
+  background: var(--ui-line);
+}
+
+.stats__ticks span {
+  display: block;
+  height: 100%;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+@media (max-width: 767.98px) {
+  .stats__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stat__visual {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1rem;
+  }
+
+  .stats.is-staged {
+    align-content: center;
+  }
+
+  .stats.is-staged .stat__num {
+    font-size: min(42vw, 50svh);
+  }
+
+  .stats.is-staged .stat__label {
+    font-size: var(--fs-statement);
+  }
+}

@@ -1,0 +1,36 @@
+.manifesto {
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: calc(var(--gutter) * 4) var(--gutter);
+}
+
+.manifesto__text {
+  max-width: 21em;
+  font-size: clamp(2rem, 5.2vw, 5.75rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-indent: 2.2em;
+}
+
+/* text-indent is inherited: only the paragraph's first line is indented, never each split word */
+.manifesto__words div {
+  text-indent: 0;
+}
+
+.manifesto__em {
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.12em;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+@media (max-width: 767.98px) {
+  .manifesto__text {
+    text-indent: 0;
+    line-height: 1.08;
+  }
+}

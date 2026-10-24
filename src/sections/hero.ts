@@ -3,7 +3,7 @@ import type { SiteContent } from '../types';
 import type { Section } from './section';
 import type { Conditions } from '../lib/media';
 import { gsap, ScrollTrigger, SplitText, Flip } from '../lib/gsap';
-import { esc } from '../lib/html';
+import { esc, srPair } from '../lib/html';
 import { onVelocity, skewFor } from '../lib/velocity';
 
 let words: HTMLElement[] = [];
@@ -57,10 +57,7 @@ export const hero: Section = {
           <span class="hero__word hero__word--first">${esc(c.person.first)}</span>
           <span class="hero__word hero__word--last">${esc(c.person.last)}</span>
         </h1>
-        <p class="hero__role">
-          <span class="sr-only">${esc(c.person.role)}</span>
-          <span class="hero__role-text" aria-hidden="true">${esc(c.person.role)}</span>
-        </p>
+        <p class="hero__role">${srPair(c.person.role, esc(c.person.role), 'hero__role-text')}</p>
       </div>
     </section>`,
 
