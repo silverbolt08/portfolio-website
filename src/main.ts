@@ -22,17 +22,15 @@ import { renderCounter, renderProgress, animateCounter } from './ui/counter';
 import { renderCursor, animateCursor } from './ui/cursor';
 import type { Section } from './sections/section';
 import { stub } from './sections/stub';
+import { runPreloader } from './sections/preloader';
+import { hero, prepareHero, heroIntro } from './sections/hero';
 
 const c = content;
 
+if (import.meta.env.DEV) Object.assign(window, { gsap, ScrollTrigger });
+
 const sections: Section[] = [
-  {
-    id: 'hero',
-    render: () => `<section id="hero" class="section stub" tabindex="-1" aria-labelledby="hero-title">
-      <h1 id="hero-title" class="stub__hero">${c.person.first}<br>${c.person.last}</h1>
-      <p class="stub__role">${c.person.role}</p>
-    </section>`,
-  },
+  hero,
   stub('manifesto', c.manifesto.heading),
   stub('stats', c.stats.heading),
   stub('skills', c.skills.heading),
@@ -57,6 +55,7 @@ function render() {
   document.getElementById('main')!.innerHTML = sections.map((s) => s.render(c)).join('');
 }
 
+/** P5: everything scroll-driven is built only after the preloader has finished, in page order. */
 function animate() {
   const mm = gsap.matchMedia();
   mm.add(conditions, (ctx) => {
@@ -75,13 +74,27 @@ function animate() {
   });
 }
 
+const pageLoaded = () =>
+  new Promise<void>((resolve) => (document.readyState === 'complete' ? resolve() : addEventListener('load', () => resolve(), { once: true })));
+
 async function boot() {
+  // The intro always starts at the top; a restored mid-page position would sit under the curtain.
+  history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
   render();
   initMonogram();
   initMenu();
   initClock(c.person.timeZone);
   for (const s of sections) s.init?.(c);
-  await loadFonts();
+
+  const reduceMotion = matchMedia(conditions.reduceMotion).matches;
+  const fonts = loadFonts();
+  const ready = Promise.all([fonts, pageLoaded()]).then(() => prepareHero());
+
+  await runPreloader(ready, heroIntro, reduceMotion);
+  if (reduceMotion) gsap.set('#ui', { autoAlpha: 1 });
+  document.documentElement.classList.remove('is-loading');
   document.documentElement.classList.add('is-ready');
   animate();
 }

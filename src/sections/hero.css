@@ -1,0 +1,63 @@
+.hero {
+  /* SHIVANSH fills the line width; the height cap keeps both lines and the role on a short screen */
+  --name-em: 3.18;
+  --name-size: min(calc((100vw - 2 * var(--gutter)) / var(--name-em)), 41svh, 30rem);
+
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 100svh;
+  min-height: 520px;
+  padding: calc(var(--gutter) * 3) var(--gutter) calc(var(--gutter) + 3.25rem);
+}
+
+.hero__inner {
+  position: relative;
+  width: 100%;
+}
+
+.hero__name {
+  display: grid;
+  font-family: var(--font-display);
+  font-size: var(--name-size);
+  font-weight: 400;
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+  font-kerning: none;
+}
+
+.hero__word {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero__word--last {
+  justify-self: end;
+}
+
+/* SplitText char masks: clip during the intro rise, open for the scroll sequence */
+.hero__name div:has(> .hero__char) {
+  overflow: clip;
+}
+
+.hero__role {
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--name-size) * 0.1);
+  max-width: 22ch;
+  font-size: var(--fs-statement);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 767.98px) {
+  .hero {
+    padding-bottom: calc(var(--gutter) + 3rem);
+  }
+
+  .hero__role {
+    position: static;
+    margin-top: 1.25rem;
+    font-size: var(--fs-lead);
+  }
+}

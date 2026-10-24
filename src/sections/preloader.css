@@ -1,0 +1,29 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--gutter);
+  background: var(--ink);
+  color: var(--bone);
+}
+
+.preloader__mask {
+  overflow: clip;
+  line-height: 0.8;
+}
+
+.preloader__count {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-hero);
+  font-weight: 300;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+html.is-loading {
+  overflow: hidden;
+}
