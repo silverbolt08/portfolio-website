@@ -1,0 +1,59 @@
+:root {
+  /* Colour */
+  --ink: #0a0a0a;
+  --bone: #ede8dc;
+  --gold: #d9b45a;
+  --ink-2: #151513; /* card fill, one step up from ink */
+  --grey: #8e8a80; /* secondary text on ink, 5.8:1 */
+  --grey-dim: #3a3934; /* outlines and dimmed states on ink */
+  --grey-bone: #5c584f; /* secondary text on bone, 6.1:1 */
+  --gold-deep: #7a5c14; /* gold text on bone, 5.1:1 */
+
+  /* Persistent UI, swapped on the bone act */
+  --ui-fg: var(--bone);
+  --ui-line: rgb(237 232 220 / 0.18);
+  --ui-accent: var(--gold);
+  --focus: var(--gold);
+
+  /* Type */
+  --font-display: 'Instrument Serif', 'Times New Roman', serif;
+  --font-body: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --fs-hero: clamp(6rem, 20vw, 26rem);
+  --fs-display: clamp(3.5rem, 11vw, 14rem);
+  --fs-title: clamp(2.5rem, 6.5vw, 7.5rem);
+  --fs-statement: clamp(1.75rem, 3.4vw, 3.25rem);
+  --fs-lead: clamp(1.125rem, 1.5vw, 1.5rem);
+  --fs-body: clamp(1rem, 0.95rem + 0.2vw, 1.1875rem);
+  --fs-mono: 0.8125rem;
+  --fs-monogram: 2rem;
+
+  --track-display: -0.04em;
+  --lh-display: 0.86;
+
+  /* Space */
+  --gutter: clamp(16px, 2.2vw, 32px);
+  --section-gap: clamp(120px, 16vw, 240px);
+
+  /* Motion (CSS side) */
+  --ease-wipe: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layers */
+  --z-content: 1;
+  --z-overlay: 50;
+  --z-menu: 80;
+  --z-ui: 90;
+  --z-cursor: 100;
+  --z-preloader: 110;
+  --z-top: 120;
+}
+
+html[data-ui='bone'],
+html.menu-open {
+  --ui-fg: var(--ink);
+  --ui-line: rgb(10 10 10 / 0.2);
+  --ui-accent: var(--gold-deep);
+  --focus: var(--gold-deep);
+}

@@ -1,0 +1,207 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--ink);
+  color-scheme: dark;
+}
+
+html.is-scroll-locked {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ol,
+ul,
+figure,
+blockquote {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+video,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+main:focus,
+section:focus {
+  outline: none;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--gutter);
+  left: 50%;
+  z-index: var(--z-top);
+  padding: 0.75em 1.1em;
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  transform: translate(-50%, -300%);
+}
+
+.skip-link:focus {
+  transform: translate(-50%, 0);
+}
+
+.noscript {
+  padding: var(--gutter);
+  font-family: var(--font-mono);
+}
+
+/* Shared type roles */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* Split text: masks clip the rising lines; kerning off so split letters keep their spacing */
+.split-mask {
+  overflow: clip;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.is-split {
+  font-kerning: none;
+}
+
+/* Film grain over everything */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  z-index: var(--z-top);
+  pointer-events: none;
+  opacity: 0.26;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 1.6 0 0 0 -0.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(6) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  17% { transform: translate(-3%, 2%); }
+  33% { transform: translate(2%, -4%); }
+  50% { transform: translate(-4%, -1%); }
+  67% { transform: translate(3%, 3%); }
+  83% { transform: translate(-1%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Media and placeholders */
+.media {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink-2);
+}
+
+.media img,
+.media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media__art {
+  position: absolute;
+  inset: 0;
+}
+
+.media__art > svg,
+.media__art > canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.media__label {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.875rem;
+  right: 1rem;
+  color: var(--grey);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
+}

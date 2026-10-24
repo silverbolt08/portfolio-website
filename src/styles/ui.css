@@ -1,0 +1,241 @@
+/* Persistent UI layer: monogram, menu button, clock, progress line, counter */
+.ui {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-ui);
+  pointer-events: none;
+  color: var(--ui-fg);
+}
+
+.ui a,
+.ui button {
+  pointer-events: auto;
+}
+
+.monogram {
+  position: absolute;
+  top: calc(var(--gutter) - 4px);
+  left: var(--gutter);
+  display: flex;
+  font-family: var(--font-display);
+  font-size: var(--fs-monogram);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.monogram__l {
+  display: inline-block;
+  line-height: 1;
+}
+
+.menu-btn {
+  position: absolute;
+  top: calc(var(--gutter) - 12px);
+  right: calc(var(--gutter) - 16px);
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.menu-btn__inner {
+  display: inline-block;
+}
+
+.hud-row {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.hud {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.progress {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: var(--ui-line);
+}
+
+.progress__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.5px;
+  height: 2px;
+  background: var(--ui-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.counter__mask {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.2em;
+  vertical-align: bottom;
+}
+
+.counter__cur {
+  display: inline-block;
+  color: var(--ui-accent);
+}
+
+@media (max-width: 767.98px) {
+  .hud-row {
+    gap: 1rem;
+  }
+
+  .progress {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .hud--clock {
+    margin-right: auto;
+  }
+}
+
+/* Menu overlay */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu);
+  overflow-y: auto;
+  background: var(--bone);
+  color: var(--ink);
+}
+
+.menu__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--gutter);
+  align-items: end;
+  min-height: 100%;
+  padding: calc(var(--gutter) * 4) var(--gutter) calc(var(--gutter) * 3);
+}
+
+.menu__nav ol {
+  display: grid;
+  gap: 0.1em;
+}
+
+.menu__link {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6.2vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.menu__num {
+  min-width: 2.2em;
+  color: var(--gold-deep);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0;
+}
+
+.menu__mask {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.06em;
+}
+
+.menu__text {
+  display: block;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.menu__link:hover .menu__text,
+.menu__link:focus-visible .menu__text {
+  font-style: italic;
+}
+
+.menu__aside {
+  display: grid;
+  gap: 1.5rem;
+  align-content: end;
+  padding-bottom: 0.5rem;
+}
+
+.menu__email {
+  font-size: var(--fs-lead);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+.menu__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.menu__note {
+  max-width: 32ch;
+  color: var(--grey-bone);
+}
+
+@media (max-width: 767.98px) {
+  .menu__inner {
+    grid-template-columns: 1fr;
+    align-content: space-between;
+  }
+}
+
+/* Custom cursor */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.cursor__dot {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.cursor__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
