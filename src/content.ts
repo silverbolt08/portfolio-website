@@ -28,6 +28,7 @@ export const content: SiteContent = {
   },
 
   person: {
+    name: 'Shivansh Singh',
     first: 'SHIVANSH',
     last: 'SINGH',
     monogram: 'SS',

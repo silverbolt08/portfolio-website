@@ -6,7 +6,6 @@ import 'lenis/dist/lenis.css';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/ui.css';
-import './sections/stub.css';
 
 import { content } from './content';
 import { gsap, ScrollTrigger } from './lib/gsap';
@@ -20,7 +19,6 @@ import { renderClock, initClock } from './ui/clock';
 import { renderCounter, renderProgress, animateCounter } from './ui/counter';
 import { renderCursor, animateCursor } from './ui/cursor';
 import type { Section } from './sections/section';
-import { stub } from './sections/stub';
 import { runPreloader } from './sections/preloader';
 import { hero, prepareHero, heroIntro } from './sections/hero';
 import { manifesto } from './sections/manifesto';
@@ -29,6 +27,9 @@ import { skills } from './sections/skills';
 import { work, openFromHash } from './sections/work';
 import { renderCaseRoot } from './sections/case-study';
 import { experience } from './sections/experience';
+import { minorWorks, renderMinorPreview } from './sections/minor-works';
+import { renderSlingshot } from './sections/slingshot';
+import { contact, renderFooter } from './sections/contact';
 
 const c = content;
 
@@ -41,12 +42,8 @@ const sections: Section[] = [
   skills,
   work,
   experience,
-  stub('minor-works', c.minorWorks.heading, `<button class="stub__btn" type="button" data-cursor="DRAG">Drag target</button>`),
-  stub(
-    'contact',
-    c.contactSection.heading,
-    `<button class="stub__btn" type="button" data-cursor="COPY" data-magnetic><span data-magnetic-inner>${c.contact.email}</span></button>`,
-  ),
+  minorWorks,
+  contact,
 ];
 
 function render() {
@@ -56,8 +53,10 @@ function render() {
     ${renderMonogram(c)}
     ${renderMenuButton()}
     <div class="hud-row">${renderClock(c)}${renderProgress()}${renderCounter(c.nav.length)}</div>`;
-  document.getElementById('overlays')!.innerHTML = renderMenu(c) + renderCaseRoot() + renderCursor();
-  document.getElementById('main')!.innerHTML = sections.map((s) => s.render(c)).join('');
+  document.getElementById('overlays')!.innerHTML = renderMenu(c) + renderCaseRoot() + renderSlingshot() + renderMinorPreview(c) + renderCursor();
+  const main = document.getElementById('main')!;
+  main.innerHTML = sections.map((s) => s.render(c)).join('');
+  main.insertAdjacentHTML('afterend', renderFooter(c));
 }
 
 /** P5: everything scroll-driven is built only after the preloader has finished, in page order. */

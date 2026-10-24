@@ -1,0 +1,112 @@
+.contact {
+  display: grid;
+  gap: clamp(48px, 6vw, 96px);
+  padding: var(--section-gap) var(--gutter) clamp(80px, 10vw, 160px);
+}
+
+.contact__headline {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 15.5vw, 22rem);
+  font-weight: 400;
+  line-height: 0.84;
+  letter-spacing: var(--track-display);
+}
+
+.contact__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) auto;
+  gap: 2rem calc(var(--gutter) * 2);
+  align-items: start;
+}
+
+.contact__intro {
+  max-width: 28ch;
+  font-size: var(--fs-lead);
+  line-height: 1.35;
+}
+
+.contact__actions {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+}
+
+.contact__email {
+  padding: clamp(1.1rem, 1.6vw, 1.6rem) clamp(1.6rem, 2.6vw, 2.6rem);
+  border-radius: 999px;
+  background: var(--bone);
+  color: var(--ink);
+  font-size: clamp(1.125rem, 1.9vw, 1.75rem);
+  letter-spacing: -0.01em;
+}
+
+.contact__email-inner,
+.contact__email-text {
+  display: inline-block;
+}
+
+.contact__hint {
+  color: var(--grey);
+  font-size: 0.9375rem;
+}
+
+.contact__hint a,
+.contact__links a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+.contact__links {
+  display: grid;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer {
+  padding-bottom: calc(var(--gutter) + 3rem);
+  overflow: clip;
+}
+
+.footer__marquee {
+  color: var(--grey-dim);
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 11vw, 12rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+}
+
+.footer__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem var(--gutter) 0;
+  color: var(--grey);
+  font-size: 0.9375rem;
+}
+
+.footer__top {
+  padding: 0.8rem 1.4rem;
+  border-radius: 999px;
+  background: var(--ink-2);
+  color: var(--bone);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.04em;
+}
+
+.footer__top > span {
+  display: inline-block;
+}
+
+@media (max-width: 1023.98px) {
+  .contact__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

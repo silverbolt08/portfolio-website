@@ -98,6 +98,8 @@ export interface MinorWork {
 export interface SiteContent {
   meta: { title: string; description: string };
   person: {
+    /** Display name, in normal case. */
+    name: string;
     first: string;
     last: string;
     monogram: string;

@@ -1,0 +1,154 @@
+/* Starts on bone (continuing the experience act); an ink circle opens over it as the section arrives. */
+.mw {
+  position: relative;
+  padding: var(--section-gap) var(--gutter);
+  background: var(--bone);
+  color: var(--bone);
+  overflow: clip;
+}
+
+.mw__wipe {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  clip-path: circle(0% at 50% 0%);
+}
+
+.mw.is-static {
+  background: var(--ink);
+}
+
+.mw.is-static .mw__wipe {
+  clip-path: none;
+}
+
+.mw__heading {
+  position: relative;
+  margin-bottom: clamp(48px, 6vw, 96px);
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 400;
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+}
+
+.mw__list {
+  position: relative;
+  display: grid;
+}
+
+.mw__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 1.5rem calc(var(--gutter) * 2);
+  align-items: end;
+  padding: clamp(28px, 3.5vw, 52px) 0;
+}
+
+.mw__mask {
+  overflow: clip;
+  padding-bottom: 0.06em;
+}
+
+.mw__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6.8vw, 8rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+.mw__title-text {
+  display: inline-block;
+}
+
+.mw__row:hover .mw__title-text {
+  font-style: italic;
+}
+
+.mw__meta {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 0.4rem;
+}
+
+.mw__blurb {
+  max-width: 46ch;
+  line-height: 1.5;
+}
+
+.mw__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  color: var(--grey);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+}
+
+.mw__play {
+  justify-self: start;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.04em;
+}
+
+.mw__play > span {
+  display: inline-block;
+}
+
+.mw__thumb {
+  grid-column: 1 / -1;
+  max-width: 28rem;
+}
+
+/* With a fine pointer the preview trails the cursor instead */
+@media (hover: hover) and (pointer: fine) {
+  .mw__thumb {
+    display: none;
+  }
+}
+
+.mw-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: calc(var(--z-overlay) - 1);
+  width: clamp(240px, 22vw, 360px);
+  aspect-ratio: 4 / 3;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.mw-preview__item {
+  position: absolute;
+  inset: 0;
+}
+
+.mw-preview .media {
+  height: 100%;
+}
+
+.mw-preview .media__label {
+  display: none;
+}
+
+.mw-preview .media__art {
+  inset: 0;
+}
+
+@media (max-width: 767.98px) {
+  .mw__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw__row:hover .mw__title-text {
+    font-style: normal;
+  }
+}
