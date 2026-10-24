@@ -87,7 +87,6 @@ export const work: Section = {
               start: () => `top+=${(i + 1) * h()} bottom`,
               end: () => `top+=${(i + 1) * h()} top`,
               scrub: 0.6,
-              invalidateOnRefresh: true,
             },
           })
           .to(inner, { scale: 0.92 }, 0)
@@ -105,7 +104,6 @@ export const work: Section = {
             trigger: stack,
             start: () => `top+=${i * h()} 60%`,
             toggleActions: 'play none none reverse',
-            invalidateOnRefresh: true,
           },
         })
         .fromTo(el.querySelector('.card__index'), { yPercent: 105 }, { yPercent: 0, duration: 1.2 })

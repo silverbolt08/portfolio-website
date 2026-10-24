@@ -40,6 +40,16 @@
   overflow: clip;
 }
 
+.hero__role-mask {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.08em;
+}
+
+.hero__role-text {
+  display: block;
+}
+
 .hero__role {
   position: absolute;
   left: 0;

@@ -1,5 +1,4 @@
 import { gsap } from './gsap';
-import { $$ } from './html';
 
 /**
  * Pulls [data-magnetic] elements toward the pointer; a [data-magnetic-inner] child moves half as much again.
@@ -7,7 +6,7 @@ import { $$ } from './html';
  */
 export function magnetic(root: ParentNode = document, strength = 0.35): () => void {
   const offs: (() => void)[] = [];
-  for (const el of $$('[data-magnetic]', root)) {
+  for (const el of root.querySelectorAll<HTMLElement>('[data-magnetic]')) {
     const inner = el.querySelector<HTMLElement>('[data-magnetic-inner]');
     const vars = { duration: 0.8, ease: 'expo.out' };
     const x = gsap.quickTo(el, 'x', vars);

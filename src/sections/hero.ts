@@ -3,13 +3,13 @@ import type { SiteContent } from '../types';
 import type { Section } from './section';
 import type { Conditions } from '../lib/media';
 import { gsap, ScrollTrigger, SplitText, Flip } from '../lib/gsap';
-import { esc, srPair } from '../lib/html';
+import { esc } from '../lib/html';
 import { onVelocity, skewFor } from '../lib/velocity';
 
 let words: HTMLElement[] = [];
 let initials: HTMLElement[] = [];
 let tails: HTMLElement[] = [];
-let roleWords: HTMLElement[] = [];
+let role: HTMLElement | null = null;
 let prepared = false;
 
 /** Splits the name into letters after the fonts have loaded. Runs once, before the intro. */
@@ -27,8 +27,8 @@ export function prepareHero(): void {
     initials.push(chars[0]);
     tails.push(...chars.slice(1));
   }
-  const role = hero.querySelector<HTMLElement>('.hero__role-text')!;
-  roleWords = SplitText.create(role, { type: 'words', mask: 'words', aria: 'none' }).words as HTMLElement[];
+  // The role line stays plain text (readable by everyone, no aria tricks) and rises as one line.
+  role = hero.querySelector<HTMLElement>('.hero__role-text');
 }
 
 /** P4: letters rise out of their masks, then the role line. Added to the preloader timeline. */
@@ -41,8 +41,7 @@ export function heroIntro(): gsap.core.Timeline {
       { yPercent: 110 },
       { yPercent: 0, duration: 1.2, stagger: 0.035, ease: 'expo.out' },
     )
-    .fromTo(roleWords, { yPercent: 110 }, { yPercent: 0, duration: 1.0, stagger: 0.03 }, '-=1.0')
-    .fromTo('#ui', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.8, ease: 'power2.out' }, '-=0.9')
+    .fromTo(role, { yPercent: 110 }, { yPercent: 0, duration: 1.1 }, '-=1.0')
     // Letters leave their masks for the scroll sequence (the initials fly to the corner).
     .add(() => masks.forEach((m) => (m.style.overflow = 'visible')));
 }
@@ -57,7 +56,7 @@ export const hero: Section = {
           <span class="hero__word hero__word--first">${esc(c.person.first)}</span>
           <span class="hero__word hero__word--last">${esc(c.person.last)}</span>
         </h1>
-        <p class="hero__role">${srPair(c.person.role, esc(c.person.role), 'hero__role-text')}</p>
+        <p class="hero__role"><span class="hero__role-mask"><span class="hero__role-text">${esc(c.person.role)}</span></span></p>
       </div>
     </section>`,
 

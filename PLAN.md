@@ -281,3 +281,34 @@ Each phase: read the listed skills' SKILL.md again → build → `npm run typech
 | 5 Experience | E1–E4, mobile vertical variant | gsap-scrolltrigger, gsap-utils | the pin starts at the section top and releases right after the last panel; the wipe is smooth both ways; reload mid-section has no jump (`ScrollTrigger.getById('experience').start/end` checked against layout) |
 | 6 Minor works + Contact | N1–N5, C1–C4 | gsap-plugins (ScrambleText), gsap-core, gsap-performance | scramble on hover and focus; the preview trails; the slingshot plays with mouse, touch and keyboard; email is copied (clipboard verified) and announced; back-to-top rewinds |
 | 7 Polish | mobile variants, reduced motion, a11y pass, perf pass (bundle, unused code, CLS), Chrome + Edge + Firefox sanity, README (run, build, replace placeholders) | all | Lighthouse desktop Perf ≥ 90 and A11y ≥ 95 (run via `npx lighthouse`); inspector 0 FAIL at 3 widths with the allow-list; DevTools emulated reduced motion shows no pins or Lenis |
+
+---
+
+## 11. Build notes (what changed against this plan, and why)
+
+- **Section counter** reads `0N / 08` (open question 1, default taken). Its triggers use only pin-aware *starts*:
+  `endTrigger` positions ignored earlier pins' spacing and miscounted inside the stats pin.
+- **Wipe back to ink (N1)** moved from the minor-works entry to the experience act's *exit*: the bone circle closes as
+  the act leaves. Same visual beat, but minor works can then be plain ink with readable text at rest (the original
+  bone-on-bone start failed contrast checks and read as an empty stretch to the inspector).
+- **Experience at rest is its finished state** (bone field, ink text). The wipe's closed starting state is applied
+  only when the section's top comes up from below the fold, out of sight, so it still opens on screen.
+- **Manifesto words** start lighting up as the section arrives (not at the pin start), so the screen it enters on is
+  not near-empty. Pin length unchanged.
+- **Hero role line** is plain text rising as one line (not split into words), so it stays real, readable text.
+- **Minor-work titles** stay visible at rest and scramble into place as they arrive (same device as the hover),
+  instead of rising from masks.
+- **Experience track** moves by a constant `xPercent` (every panel is sized in vw), and timelines without
+  function-based values no longer use `invalidateOnRefresh`: after a refresh, a staggered `fromTo` re-applied its
+  starting state to the first target only, so later words and panel lines showed before their reveal.
+- **Case study** grows from the card's picture rather than the whole card (the cards are nearly full-screen, so a grow
+  from the card was barely visible).
+- **UI layer** is no longer faded in by the intro: the curtain reveals it with the hero (a mid-fade UI was caught by
+  the contrast audit).
+- **Back-to-top blur** (the one `filter` exception, risk 4) is applied per section, desktop only, during the rewind.
+- **`lib/split.ts`** was not needed: the split-text a11y pattern is `srPair()` in `lib/html.ts` plus SplitText's own
+  `aria` option on headings.
+- **Taste-skill inspector**: 0 FAIL with `--allow mono,numbering,micro-label,font-count,mixed-font-headline,late-title,
+  few-pictures,no-real-pictures,no-footage,placeholder-data,headline-lines,palette-cream,long-pin`, every allowance
+  being something this brief requires. Remaining WARNs are brief-mandated (progress hairline, bone palette, preloader)
+  or artifacts of measuring a pinned page statically.

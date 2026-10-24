@@ -5,7 +5,6 @@ import type { Cleanup, Conditions } from '../lib/media';
 import { gsap, ScrollTrigger } from '../lib/gsap';
 import { esc } from '../lib/html';
 import { placeholder } from '../lib/placeholder';
-import { setUiTheme } from '../lib/theme';
 import { initSlingshot, openSlingshot, setSlingshotMotion } from './slingshot';
 
 let items: MinorWork[] = [];
@@ -38,7 +37,6 @@ export const minorWorks: Section = {
     items = c.minorWorks.items;
     return `
     <section id="minor-works" class="mw" tabindex="-1" aria-labelledby="mw-title">
-      <div class="mw__wipe" aria-hidden="true"></div>
       <h2 id="mw-title" class="mw__heading">${esc(c.minorWorks.heading)}</h2>
       <ul class="mw__list">${items.map(row).join('')}</ul>
     </section>`;
@@ -52,49 +50,32 @@ export const minorWorks: Section = {
   animate(cond: Conditions) {
     setSlingshotMotion(cond.reduceMotion);
     const section = document.getElementById('minor-works')!;
-    const wipe = section.querySelector<HTMLElement>('.mw__wipe')!;
     const rows = gsap.utils.toArray<HTMLElement>('.mw__row', section);
     const cleanups: Cleanup[] = [];
 
-    // U9: back to ink once the ink field covers the screen
-    ScrollTrigger.create({
-      id: 'mw-theme',
-      trigger: section,
-      start: 'top top+=1',
-      onEnter: () => setUiTheme('ink'),
-      onLeaveBack: () => setUiTheme('bone'),
-    });
-
     if (cond.reduceMotion) {
-      section.classList.add('is-static');
       gsap.from(rows, { autoAlpha: 0, duration: 0.6, stagger: 0.05, ease: 'none', scrollTrigger: { trigger: section, start: 'top 75%', once: true } });
-      return () => section.classList.remove('is-static');
+      return;
     }
 
-    // N1: an ink circle opens from the top edge as the section arrives
-    gsap.fromTo(
-      wipe,
-      { clipPath: 'circle(0% at 50% 0%)' },
-      {
-        clipPath: 'circle(150% at 50% 0%)',
-        ease: 'none',
-        scrollTrigger: { id: 'mw-wipe', trigger: section, start: 'top 85%', end: 'top top', scrub: 0.8, invalidateOnRefresh: true },
-      },
-    );
-
-    // N2: heading and rows rise from their masks, once
-    gsap.from(section.querySelector('.mw__heading'), { yPercent: 40, autoAlpha: 0, duration: 1.2, scrollTrigger: { trigger: section, start: 'top 40%', once: true } });
+    // N2: titles stay real text at rest and scramble into place as they arrive; the details rise after them
+    const scrambleIn = (el: Element, text: string) =>
+      gsap.to(el, { duration: 1.1, scrambleText: { text, chars: 'upperCase', speed: 0.5, revealDelay: 0.25 }, overwrite: true });
+    const heading = section.querySelector<HTMLElement>('.mw__heading')!;
+    const headingText = heading.textContent ?? '';
+    ScrollTrigger.create({ trigger: heading, start: 'top 85%', once: true, onEnter: () => scrambleIn(heading, headingText) });
     ScrollTrigger.batch(rows, {
       start: 'top 85%',
       once: true,
       onEnter: (els) => {
-        gsap.from(
-          els.map((el) => el.querySelector('.mw__title-text')),
-          { yPercent: 105, duration: 1.2, stagger: 0.08 },
-        );
-        gsap.from(
+        els.forEach((el, i) => {
+          const title = items.find((m) => m.id === (el as HTMLElement).dataset.id)?.title ?? '';
+          gsap.delayedCall(i * 0.12, () => scrambleIn(el.querySelector('.mw__title-text')!, title));
+        });
+        gsap.fromTo(
           els.flatMap((el) => [...el.querySelectorAll('.mw__meta > *, .mw__thumb')]),
-          { y: 24, autoAlpha: 0, duration: 1, stagger: 0.04, delay: 0.15 },
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, stagger: 0.04, delay: 0.15 },
         );
       },
     });
@@ -118,10 +99,7 @@ export const minorWorks: Section = {
     // N4: a preview trails the pointer, leaning with its horizontal speed (fine pointers only)
     if (cond.canHover) cleanups.push(trailingPreview(section, rows));
 
-    return () => {
-      cleanups.forEach((fn) => fn());
-      section.classList.remove('is-static');
-    };
+    return () => cleanups.forEach((fn) => fn());
   },
 };
 

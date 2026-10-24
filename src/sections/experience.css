@@ -1,4 +1,4 @@
-/* The bone act. Ink text sits over a bone field that the circular wipe reveals; outside the circle it is ink on ink. */
+/* The bone act. Ink text over a bone field that a circular wipe opens; outside the circle it is ink on ink. */
 .exp {
   position: relative;
   height: 100svh;
@@ -6,15 +6,11 @@
   color: var(--ink);
 }
 
+/* Open (covering) at rest; the script closes it out of sight and opens it with the scroll */
 .exp__wipe {
   position: absolute;
   inset: 0;
   background: var(--bone);
-  clip-path: circle(0% at 50% 50%);
-}
-
-.exp.is-static .exp__wipe {
-  clip-path: none;
 }
 
 .exp__title {
@@ -126,10 +122,11 @@
 }
 
 .exp__awards-title {
-  color: var(--gold-deep);
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.6vw, 5.5rem);
   font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
 }
 
 .exp__awards {
@@ -144,7 +141,8 @@
 
 .exp__award-title {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 5.2vw, 6.25rem);
+  font-style: italic;
+  font-size: clamp(2rem, 3.6vw, 4.25rem);
   line-height: 0.92;
   letter-spacing: -0.03em;
 }

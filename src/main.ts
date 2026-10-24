@@ -97,7 +97,6 @@ async function boot() {
   const ready = Promise.all([fonts, pageLoaded()]).then(() => prepareHero());
 
   await runPreloader(ready, heroIntro, reduceMotion);
-  if (reduceMotion) gsap.set('#ui', { autoAlpha: 1 });
   document.documentElement.classList.remove('is-loading');
   document.documentElement.classList.add('is-ready');
   animate();

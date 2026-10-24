@@ -50,7 +50,7 @@
   --z-top: 120;
 }
 
-html[data-ui='bone'],
+html[data-act='bone'],
 html.menu-open {
   --ui-fg: var(--ink);
   --ui-line: rgb(10 10 10 / 0.2);

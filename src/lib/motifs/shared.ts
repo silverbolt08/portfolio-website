@@ -22,9 +22,9 @@ export function rng(seed: number): () => number {
 /** Normal-ish sample (sum of uniforms). */
 export const gauss = (r: () => number): number => (r() + r() + r() + r() - 2) / 2;
 
-/** Every motif draws into a 1600×900 box; `slice` crops it to any aspect ratio. */
+/** Every motif draws into a 1600×900 box and fits whole inside any aspect ratio (`meet`), on the media's own fill. */
 export const svg = (body: string, defs = ''): string =>
-  `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" focusable="false">${
+  `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" focusable="false">${
     defs ? `<defs>${defs}</defs>` : ''
   }${body}</svg>`;
 

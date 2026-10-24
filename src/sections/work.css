@@ -135,6 +135,7 @@
 .card__visual {
   grid-area: visual;
   align-self: center;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -166,10 +167,10 @@
     font-size: 5.5rem;
   }
 
-  /* Taller crop on a phone, so the card has no empty middle (the drawings crop with 'slice') */
+  /* A taller box on a phone, so the card has no empty middle (drawings fit whole inside it) */
   .card__visual .media {
-    aspect-ratio: 4 / 5 !important;
-    max-height: 46svh;
+    aspect-ratio: 1 / 1 !important;
+    max-height: 42svh;
     width: 100%;
   }
 

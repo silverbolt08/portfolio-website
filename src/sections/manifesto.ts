@@ -2,7 +2,7 @@ import './manifesto.css';
 import type { SiteContent } from '../types';
 import type { Section } from './section';
 import type { Conditions } from '../lib/media';
-import { gsap, SplitText } from '../lib/gsap';
+import { gsap, ScrollTrigger, SplitText } from '../lib/gsap';
 import { esc, srPair } from '../lib/html';
 
 /** *word* → gold serif italic emphasis. */
@@ -28,21 +28,31 @@ export const manifesto: Section = {
       return () => split.revert();
     }
 
-    // M1: every word goes from 15% to full opacity in reading order, scrubbed through the pin
+    // M1: the section pins for its run; the words light up in reading order from the moment it arrives
+    // until the pin releases, so the screen it enters on already holds the opening words.
+    const pin = ScrollTrigger.create({
+      id: 'manifesto',
+      trigger: section,
+      start: 'top top',
+      end: cond.isMobile ? '+=90%' : '+=160%',
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    });
+    // An explicit starting state and a plain .to (no invalidateOnRefresh: a refresh would otherwise re-apply a
+    // staggered fromTo's start to the first word only). The end is a function, so it is re-measured anyway.
+    gsap.set(split.words, { opacity: 0.15 });
     gsap
       .timeline({
         scrollTrigger: {
-          id: 'manifesto',
+          id: 'manifesto-words',
           trigger: section,
-          start: 'top top',
-          end: cond.isMobile ? '+=90%' : '+=160%',
-          pin: true,
+          start: 'top 55%',
+          end: () => pin.end - window.innerHeight * 0.15,
           scrub: 0.6,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
         },
       })
-      .fromTo(split.words, { opacity: 0.15 }, { opacity: 1, ease: 'none', duration: 0.3, stagger: 0.1 });
+      .to(split.words, { opacity: 1, ease: 'none', duration: 0.3, stagger: 0.1 });
 
     return () => split.revert();
   },

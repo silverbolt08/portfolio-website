@@ -64,7 +64,6 @@ export const stats: Section = {
         pin: true,
         scrub: 0.5,
         anticipatePin: 1,
-        invalidateOnRefresh: true,
       },
     });
 

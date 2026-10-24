@@ -24,8 +24,9 @@ export function placeholder(media: Media, className = ''): string {
     const poster = media.poster ? ` poster="${esc(media.poster)}"` : '';
     return `<figure class="${cls}" style="aspect-ratio:${ratio}"><video src="${esc(media.src)}"${poster} muted loop playsinline autoplay preload="none" aria-label="${esc(media.alt)}"></video></figure>`;
   }
-  return `<figure class="${cls} media--placeholder" style="aspect-ratio:${ratio}" data-motif="${media.motif ?? ''}" role="img" aria-label="${esc(media.alt)}">
+  // A div, not a figure: role="img" is not allowed on <figure>
+  return `<div class="${cls} media--placeholder" style="aspect-ratio:${ratio}" data-motif="${media.motif ?? ''}" role="img" aria-label="${esc(media.alt)}">
     <div class="media__art" aria-hidden="true">${uniqueIds(drawMotif(media.motif))}</div>
-    <figcaption class="media__label" aria-hidden="true">Placeholder: ${esc(media.label)}</figcaption>
-  </figure>`;
+    <div class="media__label" aria-hidden="true">Placeholder: ${esc(media.label)}</div>
+  </div>`;
 }

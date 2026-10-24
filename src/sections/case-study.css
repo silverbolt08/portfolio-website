@@ -12,10 +12,9 @@
   overscroll-behavior: contain;
 }
 
-/* The persistent UI steps aside while a case study is open (the overlay has its own close).
-   !important because the intro leaves an inline visibility on #ui. */
+/* The persistent UI steps aside while a case study is open (the overlay has its own close) */
 html.case-open .ui {
-  visibility: hidden !important;
+  visibility: hidden;
 }
 
 .case__close {

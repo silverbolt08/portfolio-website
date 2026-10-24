@@ -108,12 +108,24 @@ export const contact: Section = {
       return;
     }
 
-    // C1: "LET'S BUILD SOMETHING" rises line by line
+    // C1: "LET'S BUILD SOMETHING" rises line by line. The text stays visible at rest; its hidden starting state is
+    // set only when the section's top reaches the bottom of the screen, while the headline is still below the fold.
     const split = SplitText.create(section.querySelector('.contact__headline'), { type: 'lines', mask: 'lines', aria: 'auto' });
-    gsap
-      .timeline({ scrollTrigger: { id: 'contact', trigger: section, start: 'top 70%', toggleActions: 'play none none reverse' } })
-      .fromTo(split.lines, { yPercent: 110 }, { yPercent: 0, duration: 1.2, stagger: 0.12 })
-      .fromTo(section.querySelectorAll('.contact__body > *'), { y: 28, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, stagger: 0.08 }, '-=0.7');
+    const body = section.querySelectorAll('.contact__body > *');
+    const reveal = gsap
+      .timeline({ paused: true })
+      .to(split.lines, { yPercent: 0, duration: 1.2, stagger: 0.12 })
+      .to(body, { y: 0, opacity: 1, duration: 1, stagger: 0.08 }, '-=0.7');
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top bottom',
+      once: true,
+      onEnter: () => {
+        gsap.set(split.lines, { yPercent: 110 });
+        gsap.set(body, { y: 28, opacity: 0 });
+      },
+    });
+    ScrollTrigger.create({ id: 'contact', trigger: section, start: 'top 70%', once: true, onEnter: () => reveal.play() });
     cleanups.push(() => split.revert());
 
     // C3: footer marquee
