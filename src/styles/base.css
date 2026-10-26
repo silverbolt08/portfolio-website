@@ -178,6 +178,19 @@ body::after {
   object-fit: cover;
 }
 
+/* A real figure at its own proportions: shown whole, never cropped or upscaled */
+.media--natural {
+  background: none;
+}
+
+.media--natural img,
+.media--natural video {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
 .media__art {
   position: absolute;
   inset: 0 0 2.25rem;

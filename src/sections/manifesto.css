@@ -6,7 +6,8 @@
 }
 
 .manifesto__text {
-  font-size: clamp(2rem, 5.2vw, 5.75rem);
+  /* sized by width and by height, whichever is tighter, so it always fits its pinned screen */
+  font-size: clamp(2rem, min(5.2vw, 9svh), 5.75rem);
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: -0.035em;

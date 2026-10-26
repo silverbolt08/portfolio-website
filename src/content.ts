@@ -18,6 +18,17 @@ const placeholder = (motif: Motif, label: string, alt: string, aspect: Media['as
   aspect,
 });
 
+/** A real picture, shown whole at its own proportions. */
+const image = (src: string, alt: string, width: number, height: number): Media => ({
+  kind: 'image',
+  src,
+  alt,
+  label: '',
+  aspect: 'auto',
+  width,
+  height,
+});
+
 const EMAIL = 'shivanshsingh2307@gmail.com';
 
 export const content: SiteContent = {
@@ -40,9 +51,9 @@ export const content: SiteContent = {
 
   contact: {
     email: EMAIL,
-    github: { label: 'GitHub', href: '#', external: true }, // TODO real URL
-    linkedin: { label: 'LinkedIn', href: '#', external: true }, // TODO real URL
-    resume: { label: 'Resume', href: '#', external: true }, // TODO real PDF, e.g. /media/shivansh-singh-resume.pdf
+    github: { label: 'GitHub', href: 'https://github.com/silverbolt08', external: true },
+    linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silverbolt08', external: true },
+    resume: { label: 'Resume', href: '/media/Shivansh_Singh_CV.pdf', external: true },
   },
 
   nav: [
@@ -58,9 +69,8 @@ export const content: SiteContent = {
 
   manifesto: {
     heading: 'Manifesto',
-    // Original draft from the brief, kept for reference:
-    // 'I build agentic AI systems and mine biological data for meaning, from knowledge graphs of Ayurvedic medicine to multi-agent pipelines that ship to production.'
-    text: 'I build *agents* that ship to production and mine biological data for meaning, from knowledge *graphs* of Ayurvedic medicine to the *genes* that set one cell apart from the next.',
+    // Shivansh's text. *Asterisks* mark the gold serif italic emphasis words.
+    text: 'I design and ship *agentic* AI systems, from multi-agent pipelines to RAG, and build knowledge *graphs* that turn raw *biological* data into something researchers can query. Between disciplines, and in production.',
   },
 
   stats: {
@@ -104,13 +114,13 @@ export const content: SiteContent = {
   work: {
     heading: 'Selected work',
     intro: 'Six projects, from multi-agent pipelines in production to gene expression read one cell at a time.',
-    // Case-study prose below is a draft assembled from the brief's facts. Replace with the full write-ups.
+    // Cards keep their drawn placeholders; `caseStudy.cover` is the real picture shown when a case study is opened.
     projects: [
       {
         id: 'gravityos',
         index: '01',
         title: 'GravityOS',
-        year: '2026', // TODO confirm
+        year: '2026',
         tags: ['Python', 'LangGraph', 'OpenAI APIs', 'Multi-agent'],
         outcome: 'One company brief in, publication-ready posts for three platforms out, written and judged by 11 LLM agents.',
         facts: [
@@ -122,20 +132,23 @@ export const content: SiteContent = {
         ],
         visual: placeholder('agents', 'GravityOS run: agent graph or output carousel, 16:9 still or loop', 'Diagram of eleven agents across three pipelines feeding a critic loop'),
         caseStudy: {
+          cover: image(
+            '/media/GravityOS_Agent_Graph.png',
+            'GravityOS agent graph: a CLI brief initialises the state, the Brand DNA Builder feeds a platform router, and the Instagram, LinkedIn and Twitter/X branches each run strategy, content, critic and revision nodes until they pass or reach the revision cap',
+            4622,
+            1452,
+          ),
           overview:
             'GravityOS is a multi-agent marketing content platform. It takes a single company brief and produces publication-ready content for Instagram, LinkedIn and Twitter/X, with brand analysis, drafting and review handled by 11 LLM agents.',
           approach: [
-            'Three platform pipelines share a brand-analysis stage, then branch into concepting, drafting and selection.',
+            'A Brand DNA Builder reads the brief (and an optional website) once; a platform router then sends the work down the Instagram, LinkedIn or Twitter/X branch.',
             'A critic agent scores every draft. Anything under 8.0/10 goes back for revision, up to 3 cycles, after which it is flagged for a human.',
             'Instagram produces 3 concepts and 3 drafts and selects 1 winning carousel with 6 design briefs.',
             'Twitter/X writes up to 10 variants (5 angles × 2) and selects a winner automatically.',
           ],
           stack: ['Python', 'LangGraph', 'OpenAI APIs'],
           outcome: ['11 agents, 3 pipelines, one brief in.', 'Bounded revision cost: never more than 3 critic cycles per piece.'],
-          links: [
-            { label: 'Source', href: '#', external: true },
-            { label: 'Demo', href: '#', external: true },
-          ],
+          links: [{ label: 'Source on GitHub', href: 'https://github.com/silverbolt08/GravityOS', external: true }],
           gallery: [
             placeholder('agents', 'Pipeline diagram, full width', 'GravityOS pipeline diagram'),
             placeholder('agents', 'Generated Instagram carousel, 4:3', 'Generated carousel', '4/3'),
@@ -146,7 +159,7 @@ export const content: SiteContent = {
         id: 'picasso',
         index: '02',
         title: 'Picasso',
-        year: '2026', // TODO confirm
+        year: '2026',
         tags: ['Python', 'FastAPI', 'React', 'LLMs'],
         outcome: 'Natural-language KPI intent becomes a fully structured dashboard in under 40 seconds, with only 2 LLM calls.',
         facts: [
@@ -166,8 +179,8 @@ export const content: SiteContent = {
           stack: ['Python', 'FastAPI', 'React', 'LLMs'],
           outcome: ['Under 40 seconds from sentence to dashboard.', 'Zero manual configuration.'],
           links: [
-            { label: 'Source', href: '#', external: true },
-            { label: 'Demo', href: '#', external: true },
+            { label: 'Live site', href: 'https://silverbolt08.github.io/Picasso/', external: true },
+            { label: 'Source on GitHub', href: 'https://github.com/silverbolt08/Picasso', external: true },
           ],
           gallery: [
             placeholder('layout', 'Generated dashboard, full width', 'Picasso dashboard'),
@@ -190,6 +203,12 @@ export const content: SiteContent = {
         ],
         visual: placeholder('telemetry', 'Variance waterfall or diagnosis report, 16:9 screenshot', 'Interval telemetry trace above a cost-variance waterfall'),
         caseStudy: {
+          cover: image(
+            '/media/Electricity_Bill.png',
+            'Waterfall chart, "What moved the bill: +15.0% in total": tariff +8.7 points, production volume −0.1, product mix +3.8, weather +1.2 and controllable waste +1.4, with a table of ranges and a list of actions ranked by payback',
+            1908,
+            889,
+          ),
           overview:
             'A diagnosis engine for industrial electricity bills. It reads 15-minute interval telemetry and explains a cost spike as the sum of its causes.',
           approach: [
@@ -199,7 +218,7 @@ export const content: SiteContent = {
           ],
           stack: ['DuckDB', 'LangGraph', 'FastAPI', 'Gemini'],
           outcome: ['Five-way variance attribution per bill.', 'Zero numerical hallucination by construction.'],
-          links: [{ label: 'Source', href: '#', external: true }],
+          links: [{ label: 'Source on GitHub', href: 'https://github.com/silverbolt08/RNG', external: true }],
           gallery: [
             placeholder('telemetry', 'Interval telemetry view, full width', 'Telemetry view'),
             placeholder('telemetry', 'Executive summary, 4:3', 'Executive summary', '4/3'),
@@ -211,24 +230,39 @@ export const content: SiteContent = {
         index: '04',
         title: 'Brain Gene-Expression Map',
         year: '2025', // TODO confirm
-        tags: ['Differential expression', 'Brain atlas', 'Visualisation'],
-        outcome: 'Differential gene analysis on a brain map: the regions holding most of the affected cells glow.',
+        tags: ['Python', 'Allen Human Brain Atlas', 'PCA', 'k-means'],
+        outcome: "Where the genes behind Alzheimer's and Parkinson's are most active across the human brain, mapped in 3D.",
         facts: [
-          'Differential gene analysis, visualised on a brain map.',
-          'Up-regulated and down-regulated genes are plotted.',
-          'The regions that contain most of the affected cells glow.',
+          "Ten disease genes chosen with DisGeNET: APP, APOE, BACE1, PSEN1 and ACHE for Alzheimer's; LRRK2, PARK7, PINK1, MAPT and SNCA for Parkinson's.",
+          'Allen Human Brain Atlas microarray samples reduced with PCA, clustered with k-means (k = 4) and mapped onto brain anatomy.',
+          "3D expression maps in MNI coordinates, coloured by cluster or by Alzheimer's score.",
+          "Genes ranked as candidate biomarkers by Z-score: APP led for Alzheimer's (+0.20); LRRK2 (+0.541) and PARK7 (+0.511) for Parkinson's.",
         ],
         visual: placeholder('brain', 'Screen recording of the 3D brain map, as video or image sequence', 'Brain outline with glowing regions where affected cells concentrate'),
         caseStudy: {
+          cover: image(
+            '/media/Brain_3d.png',
+            "3D scatter of Allen Human Brain Atlas tissue samples in MNI coordinates, coloured from blue to red by Alzheimer's gene-expression score",
+            973,
+            880,
+          ),
           overview:
-            'A visual map of differential gene expression in the brain. Up- and down-regulated genes are plotted, and the regions containing most of the affected cells glow.',
+            "Brain Gene Expression Mapping: Unlocking Neurological Disease Insights. The project looks at where genes linked to Alzheimer's and Parkinson's disease are expressed across the human brain, using Allen Human Brain Atlas microarray data with gene selection guided by DisGeNET gene-disease associations.",
           approach: [
-            'Differential gene analysis identifies up- and down-regulated genes.',
-            'Affected cells are aggregated by brain region, and region intensity follows the share of affected cells.',
+            'Cleaning: probe-level data aggregated by gene symbol, missing and infinite values imputed with the row mean, and the matrix transposed to samples × genes.',
+            'Dimensionality reduction with PCA, removing one extreme PC1 outlier.',
+            'k-means (k = 4) on the PCA-reduced data, with clusters mapped to anatomical structures through the sample metadata.',
+            "Spatial mapping: 3D plots in MNI coordinates, coloured by cluster or by Alzheimer's score.",
+            'Expression analysis: Z-scores per gene across regions, averaged over literature-selected disease regions (hippocampus, temporal lobe, substantia nigra, basal ganglia), then ranked.',
+            'Visualised as bar plots, heatmaps, a clustered heatmap and 3D expression maps.',
           ],
-          stack: ['Placeholder: add stack'],
-          outcome: ['Regions of concentrated change are visible at a glance.'],
-          links: [{ label: 'Source', href: '#', external: true }],
+          stack: ['Python', 'pandas', 'SciPy', 'seaborn', 'matplotlib', 'Plotly', 'Allen Human Brain Atlas', 'DisGeNET'],
+          outcome: [
+            "Alzheimer's: APP had the highest average Z-score (+0.20); ACHE was the most down-regulated (−0.90).",
+            "Parkinson's: LRRK2 (+0.541) and PARK7 (+0.511) ranked highest.",
+            'Next step: combine this bulk spatial data with single-cell RNA-seq to find cell-type-specific biomarkers.',
+          ],
+          links: [],
           gallery: [placeholder('brain', 'Recording of the original 3D map', 'Brain map recording')],
         },
       },
@@ -236,7 +270,7 @@ export const content: SiteContent = {
         id: 'aptamer',
         index: '05',
         title: 'Aptamer Platform',
-        year: '2025', // TODO confirm
+        year: '2026',
         tags: ['React', 'TypeScript', 'Tailwind', 'PHP', 'MySQL'],
         outcome: 'AptCancerDB and AptViralDB, plus a knowledge-graph agent that answers questions about antiviral RNA aptamers.',
         facts: [
@@ -247,8 +281,14 @@ export const content: SiteContent = {
         ],
         visual: placeholder('aptamer', 'AptViralDB search screen, 16:9 screenshot', 'Secondary structure of an RNA aptamer hairpin'),
         caseStudy: {
+          cover: image(
+            '/media/AptViralDB.jpg',
+            'AptViralDB graphical abstract: collect studies from PubMed, Google Scholar and existing databases (1992 to 2025), curate validated antiviral aptamer sequences, analyse them with search, sequence and structure tools and a knowledge graph, and discover aptamer-target relationships',
+            375,
+            375,
+          ),
           overview:
-            'Two aptamer databases, AptCancerDB and AptViralDB, and an agent on top of them that answers natural-language questions about antiviral RNA aptamers.',
+            'Two aptamer databases, AptCancerDB and AptViralDB, and an agent on top of them that answers natural-language questions about antiviral RNA aptamers. AptViralDB is published as a curated resource for antiviral aptamer discovery.',
           approach: [
             '1,680+ records are filtered across 10+ criteria entirely client-side, so filtering has 0 ms network latency.',
             '1,600+ aptamer profiles are enriched through a PHP/MySQL REST API.',
@@ -257,10 +297,7 @@ export const content: SiteContent = {
           ],
           stack: ['React', 'TypeScript', 'Tailwind', 'PHP', 'MySQL'],
           outcome: ['Two public-facing databases and one research agent.'],
-          links: [
-            { label: 'AptCancerDB', href: '#', external: true },
-            { label: 'AptViralDB', href: '#', external: true },
-          ],
+          links: [{ label: 'AptViralDB paper', href: 'https://www.sciencedirect.com/science/article/pii/S2162253126002829', external: true }],
           gallery: [
             placeholder('aptamer', 'Database search screen, full width', 'Database search'),
             placeholder('aptamer', 'Agent conversation, 4:3', 'Agent conversation', '4/3'),
@@ -282,8 +319,13 @@ export const content: SiteContent = {
         ],
         visual: placeholder('cells', 'UMAP of annotated cell types, 16:9 figure', 'Clusters of single cells coloured by cell type'),
         caseStudy: {
-          overview:
-            "A single-cell RNA-seq analysis pipeline applied to knee osteoarthritis, Alzheimer's and kidney datasets.",
+          cover: image(
+            '/media/celltype_umap_figure.png',
+            'UMAPs of chondrocyte cell types in control and osteoarthritis samples, above a bar chart of cell-type composition in which osteoarthritis cells make up most of every type',
+            2972,
+            1748,
+          ),
+          overview: "A single-cell RNA-seq analysis pipeline applied to knee osteoarthritis, Alzheimer's and kidney datasets.",
           approach: [
             'Cell-type differential expression with MAST.',
             'Lipid metabolic enzymes are mapped across cell types.',
@@ -291,7 +333,7 @@ export const content: SiteContent = {
           ],
           stack: ['Placeholder: add stack'],
           outcome: ['Three disease datasets through one pipeline.'],
-          links: [{ label: 'Source', href: '#', external: true }],
+          links: [],
           gallery: [
             placeholder('cells', 'UMAP figure, full width', 'UMAP'),
             placeholder('cells', 'Regulatory network figure, 4:3', 'Regulatory network', '4/3'),

@@ -15,17 +15,20 @@ const uniqueIds = (svg: string): string => {
  * without one it is a drawn placeholder captioned with the asset that belongs there.
  */
 export function placeholder(media: Media, className = ''): string {
-  const ratio = media.aspect.replace('/', ' / ');
-  const cls = `media ${className}`.trim();
+  const auto = media.aspect === 'auto';
+  const ratio = auto ? '' : ` style="aspect-ratio:${media.aspect.replace('/', ' / ')}"`;
+  const cls = `media ${auto ? 'media--natural ' : ''}${className}`.trim();
+  // Intrinsic size, so the browser reserves the space before the file arrives
+  const size = media.width && media.height ? ` width="${media.width}" height="${media.height}"` : '';
   if (media.kind === 'image' && media.src) {
-    return `<figure class="${cls}" style="aspect-ratio:${ratio}"><img src="${esc(media.src)}" alt="${esc(media.alt)}" loading="lazy" decoding="async"></figure>`;
+    return `<figure class="${cls}"${ratio}><img src="${esc(media.src)}" alt="${esc(media.alt)}"${size} loading="lazy" decoding="async"></figure>`;
   }
   if (media.kind === 'video' && media.src) {
     const poster = media.poster ? ` poster="${esc(media.poster)}"` : '';
-    return `<figure class="${cls}" style="aspect-ratio:${ratio}"><video src="${esc(media.src)}"${poster} muted loop playsinline autoplay preload="none" aria-label="${esc(media.alt)}"></video></figure>`;
+    return `<figure class="${cls}"${ratio}><video src="${esc(media.src)}"${poster}${size} muted loop playsinline autoplay preload="none" aria-label="${esc(media.alt)}"></video></figure>`;
   }
   // A div, not a figure: role="img" is not allowed on <figure>
-  return `<div class="${cls} media--placeholder" style="aspect-ratio:${ratio}" data-motif="${media.motif ?? ''}" role="img" aria-label="${esc(media.alt)}">
+  return `<div class="${cls} media--placeholder"${ratio} data-motif="${media.motif ?? ''}" role="img" aria-label="${esc(media.alt)}">
     <div class="media__art" aria-hidden="true">${uniqueIds(drawMotif(media.motif))}</div>
     <div class="media__label" aria-hidden="true">Placeholder: ${esc(media.label)}</div>
   </div>`;

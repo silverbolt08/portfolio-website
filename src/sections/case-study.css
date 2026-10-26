@@ -71,6 +71,17 @@ html.case-open .ui {
   margin: 0 calc(var(--gutter) * -1);
 }
 
+/* The real cover: whole, centred, at most a screen tall */
+.case__hero--cover {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.case__hero--cover img {
+  max-height: 82svh;
+}
+
 .case__body {
   display: grid;
   padding: var(--section-gap) 0;

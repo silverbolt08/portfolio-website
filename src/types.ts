@@ -34,11 +34,17 @@ export interface Media {
   alt: string;
   /** What the real asset should be. Shown as a caption on the placeholder. */
   label: string;
-  aspect: '16/9' | '4/3' | '1/1' | '3/4';
+  /** 'auto' keeps a real image's own proportions (nothing cropped). */
+  aspect: '16/9' | '4/3' | '1/1' | '3/4' | 'auto';
+  /** Intrinsic size of a real image, so the browser reserves its space before it loads. */
+  width?: number;
+  height?: number;
   motif?: Motif;
 }
 
 export interface CaseStudy {
+  /** The picture at the top of the opened case study. Falls back to the card's visual. */
+  cover?: Media;
   overview: string;
   approach: string[];
   stack: string[];

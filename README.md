@@ -53,17 +53,17 @@ visual: { kind: 'video', src: '/media/brain-map.mp4', poster: '/media/brain-map.
 the minor-works previews (`minorWorks.items[].preview`) are 4:3. Galleries inside case studies
 (`caseStudy.gallery`) take any of the four aspects.
 
-### Words to confirm before launch
+### Still to confirm
 
 Search `content.ts` for `TODO`:
 
-- **Project years**: sample values; set the real ones.
-- **Case-study prose**: a draft assembled from the brief's facts; replace with the full write-ups.
-- **Brain map and scRNA-seq stacks** read "Placeholder: add stack".
+- **Project years** for Electricity Bill Spike Diagnosis, Brain Gene-Expression Map and the scRNA-seq Pipeline.
+- **scRNA-seq stack** still reads "Placeholder: add stack"; it and the brain map have no public links yet.
 - **Angry Birds and Fire Detector blurbs** are placeholders.
-- **Manifesto**: rewritten so it contains the three emphasis words (agents, graphs, genes); the original draft is
-  kept in a comment right above it. Wrap any word in `*asterisks*` to make it a gold italic emphasis.
-- **Stat labels** are my wording.
+
+Cards deliberately keep their drawn placeholders; each project's real picture is its `caseStudy.cover`, shown when
+the case study opens (Picasso has none yet, so it shows the drawing). Wrap any manifesto word in `*asterisks*` to make
+it a gold italic emphasis.
 
 ## How it is put together
 
@@ -104,5 +104,5 @@ src/
 ## Checks run before release
 
 Lighthouse 12 on the production build (`npm run build && npm run preview`): desktop Performance 100,
-Accessibility 100, Best Practices 100, SEO 100; mobile 97–98 / 100 / 100 / 100 across runs. CLS 0 (the three
+Accessibility 100, Best Practices 100, SEO 100; mobile 96–98 / 100 / 100 / 100 across runs. CLS 0 (the three
 first-screen fonts are preloaded by a small plugin in `vite.config.ts`).
