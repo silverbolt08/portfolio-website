@@ -2,7 +2,7 @@ import './case-study.css';
 import type { Project, SiteContent } from '../types';
 import { gsap } from '../lib/gsap';
 import { esc, linkAttrs } from '../lib/html';
-import { placeholder } from '../lib/placeholder';
+import { renderMedia } from '../lib/render-media';
 import { scroll } from '../lib/scroll';
 import { setPageInert, trapFocus } from '../lib/a11y';
 
@@ -33,16 +33,15 @@ function renderProject(p: Project, next: Project): string {
       <h2 id="case-title" class="case__title" tabindex="-1">${esc(p.title)}</h2>
       <p class="case__outcome">${esc(p.outcome)}</p>
     </header>
-    <div class="case__hero${cs.cover ? ' case__hero--cover' : ''}" data-reveal>${placeholder(cs.cover ?? p.visual)}</div>
+    <div class="case__hero${cs.cover ? ' case__hero--cover' : ''}" data-reveal>${renderMedia(cs.cover ?? p.visual)}</div>
     <div class="case__body">
       ${row('Overview', `<p class="case__lead">${esc(cs.overview)}</p>`)}
       ${row('Key facts', list(p.facts))}
       ${row('Approach', list(cs.approach))}
-      ${row('Stack', tags(cs.stack))}
+      ${cs.stack.length ? row('Stack', tags(cs.stack)) : ''}
       ${row('Outcome', list(cs.outcome))}
       ${cs.links.length ? row('Links', `<ul class="case__links">${cs.links.map((l) => `<li><a ${linkAttrs(l.href, l.external)}>${esc(l.label)}</a></li>`).join('')}</ul>`) : ''}
     </div>
-    <div class="case__gallery" data-reveal>${cs.gallery.map((m) => placeholder(m)).join('')}</div>
     <footer class="case__next" data-reveal>
       <a class="case__next-link" href="#work/${esc(next.id)}" data-next="${esc(next.id)}" data-cursor="VIEW">
         <span class="case__next-label">Next project</span>

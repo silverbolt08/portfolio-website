@@ -4,7 +4,7 @@ import type { Section } from './section';
 import type { Cleanup, Conditions } from '../lib/media';
 import { gsap, ScrollTrigger } from '../lib/gsap';
 import { esc } from '../lib/html';
-import { placeholder } from '../lib/placeholder';
+import { renderMedia } from '../lib/render-media';
 import { initSlingshot, openSlingshot, setSlingshotMotion } from './slingshot';
 
 let items: MinorWork[] = [];
@@ -21,13 +21,13 @@ const row = (m: MinorWork) => `
           : ''
       }
     </div>
-    <div class="mw__thumb">${placeholder(m.preview)}</div>
+    <div class="mw__thumb">${renderMedia(m.preview)}</div>
   </li>`;
 
 /** Trailing preview (N4), outside the section so nothing transformed or filtered sits above it. */
 export const renderMinorPreview = (c: SiteContent): string =>
   `<div class="mw-preview" aria-hidden="true">${c.minorWorks.items
-    .map((m) => `<div class="mw-preview__item" data-id="${esc(m.id)}">${placeholder(m.preview)}</div>`)
+    .map((m) => `<div class="mw-preview__item" data-id="${esc(m.id)}">${renderMedia(m.preview)}</div>`)
     .join('')}</div>`;
 
 export const minorWorks: Section = {

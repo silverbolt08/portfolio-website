@@ -1,14 +1,18 @@
 <!doctype html>
-<html lang="en" data-act="ink" class="is-loading">
+<html lang="en" data-act="ink">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shivansh Singh</title>
-    <meta name="description" content="" />
+    <title></title>
     <meta name="theme-color" content="#0A0A0A" />
+    <meta name="color-scheme" content="dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Only a page that will run its scripts shows the preloader curtain -->
+    <script>document.documentElement.classList.add('is-loading');</script>
     <style>
       html, body { background: #0a0a0a; }
+      html:not(.is-loading):not(.is-ready) .preloader { display: none; }
       .preloader { position: fixed; inset: 0; z-index: 110; background: #0a0a0a; color: #ede8dc; }
     </style>
   </head>
@@ -21,7 +25,7 @@
     <main id="main" tabindex="-1"></main>
     <div id="overlays"></div>
     <p id="live" class="sr-only" aria-live="polite"></p>
-    <noscript><p class="noscript">This portfolio needs JavaScript to show its content.</p></noscript>
+    <!-- noscript -->
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

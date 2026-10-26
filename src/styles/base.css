@@ -112,8 +112,24 @@ section:focus {
 }
 
 .noscript {
-  padding: var(--gutter);
+  display: grid;
+  gap: 1.25rem;
+  max-width: 60ch;
+  padding: calc(var(--gutter) * 3) var(--gutter);
   font-family: var(--font-mono);
+}
+
+.noscript h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 400;
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+}
+
+.noscript a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 /* Shared type roles */
@@ -164,7 +180,7 @@ body::after {
   100% { transform: translate(0, 0); }
 }
 
-/* Media and placeholders */
+/* Media: real pictures and drawings */
 .media {
   position: relative;
   overflow: hidden;
@@ -193,7 +209,7 @@ body::after {
 
 .media__art {
   position: absolute;
-  inset: 0 0 2.25rem;
+  inset: 0;
 }
 
 .media__art > svg,
@@ -216,20 +232,6 @@ body::after {
   font-family: var(--font-mono);
   font-size: 20px;
   font-weight: 500;
-}
-
-.media__label {
-  position: absolute;
-  left: 1rem;
-  bottom: 0.7rem;
-  right: 1rem;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: var(--grey);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  line-height: 1.4;
 }
 
 @media (prefers-reduced-motion: reduce) {

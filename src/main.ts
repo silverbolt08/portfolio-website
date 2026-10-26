@@ -47,8 +47,6 @@ const sections: Section[] = [
 ];
 
 function render() {
-  document.title = c.meta.title;
-  document.querySelector('meta[name="description"]')?.setAttribute('content', c.meta.description);
   document.getElementById('ui')!.innerHTML = `
     ${renderMonogram(c)}
     ${renderMenuButton()}
@@ -103,4 +101,10 @@ async function boot() {
   openFromHash();
 }
 
-boot();
+boot().catch((err) => {
+  // Never leave visitors behind the curtain: show the page as it is, without the motion.
+  console.error(err);
+  document.getElementById('preloader')?.remove();
+  document.documentElement.classList.remove('is-loading');
+  document.documentElement.classList.add('is-ready');
+});

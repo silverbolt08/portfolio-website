@@ -1,4 +1,4 @@
-/** Palette for the drawn placeholders (flat, in the site's own colours). */
+/** Palette for the drawings (flat, in the site's own colours). */
 export const P = {
   bone: '#EDE8DC',
   gold: '#D9B45A',

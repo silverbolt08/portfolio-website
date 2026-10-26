@@ -11,10 +11,9 @@ const uniqueIds = (svg: string): string => {
 };
 
 /**
- * Renders a Media entry. With a `src` it is the real image or video;
- * without one it is a drawn placeholder captioned with the asset that belongs there.
+ * Renders a Media entry: the real image or video when it has a `src`, otherwise its drawing.
  */
-export function placeholder(media: Media, className = ''): string {
+export function renderMedia(media: Media, className = ''): string {
   const auto = media.aspect === 'auto';
   const ratio = auto ? '' : ` style="aspect-ratio:${media.aspect.replace('/', ' / ')}"`;
   const cls = `media ${auto ? 'media--natural ' : ''}${className}`.trim();
@@ -28,8 +27,7 @@ export function placeholder(media: Media, className = ''): string {
     return `<figure class="${cls}"${ratio}><video src="${esc(media.src)}"${poster}${size} muted loop playsinline autoplay preload="none" aria-label="${esc(media.alt)}"></video></figure>`;
   }
   // A div, not a figure: role="img" is not allowed on <figure>
-  return `<div class="${cls} media--placeholder"${ratio} data-motif="${media.motif ?? ''}" role="img" aria-label="${esc(media.alt)}">
+  return `<div class="${cls} media--drawing"${ratio} data-motif="${media.motif ?? ''}" role="img" aria-label="${esc(media.alt)}">
     <div class="media__art" aria-hidden="true">${uniqueIds(drawMotif(media.motif))}</div>
-    <div class="media__label" aria-hidden="true">Placeholder: ${esc(media.label)}</div>
   </div>`;
 }

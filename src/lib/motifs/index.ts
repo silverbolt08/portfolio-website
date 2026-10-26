@@ -10,7 +10,7 @@ import { network, flame, slingshot } from './minor';
 const DRAW: Record<Motif, () => string> = { agents, layout, telemetry, brain, aptamer, cells, network, flame, slingshot };
 const cache = new Map<Motif, string>();
 
-/** SVG drawing for a placeholder motif (cached; each is deterministic). */
+/** SVG drawing for a motif (cached; each is deterministic). */
 export function drawMotif(motif: Motif | undefined): string {
   if (!motif) return '';
   if (!cache.has(motif)) cache.set(motif, DRAW[motif]());

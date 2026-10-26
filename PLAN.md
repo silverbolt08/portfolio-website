@@ -312,3 +312,8 @@ Each phase: read the listed skills' SKILL.md again → build → `npm run typech
   few-pictures,no-real-pictures,no-footage,placeholder-data,headline-lines,palette-cream,long-pin`, every allowance
   being something this brief requires. Remaining WARNs are brief-mandated (progress hairline, bone palette, preloader)
   or artifacts of measuring a pinned page statically.
+- **Release pass**: case-study galleries and the "Placeholder:" captions are gone; cards and previews keep their
+  drawings (`kind: 'drawing'`) and every case study opens on a real cover. Build uses `base: './'` with relative
+  media paths so it deploys to a sub-folder; meta, Open Graph, JSON-LD and the `<noscript>` fallback are generated
+  from `content.ts`; covers are WebP; favicon is outlined (no font dependency); a boot error drops the curtain
+  instead of leaving it up; GitHub Pages workflow in `.github/workflows/deploy.yml`.

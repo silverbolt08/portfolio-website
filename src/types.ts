@@ -27,13 +27,11 @@ export type Motif =
 
 /** The single swap point for every asset on the site. */
 export interface Media {
-  /** Set to 'image' or 'video' and fill `src` to replace the drawn placeholder. */
-  kind: 'placeholder' | 'image' | 'video';
+  /** 'drawing' is drawn in the site's palette from `motif`; 'image' and 'video' need a `src`. */
+  kind: 'drawing' | 'image' | 'video';
   src?: string;
   poster?: string;
   alt: string;
-  /** What the real asset should be. Shown as a caption on the placeholder. */
-  label: string;
   /** 'auto' keeps a real image's own proportions (nothing cropped). */
   aspect: '16/9' | '4/3' | '1/1' | '3/4' | 'auto';
   /** Intrinsic size of a real image, so the browser reserves its space before it loads. */
@@ -50,7 +48,6 @@ export interface CaseStudy {
   stack: string[];
   outcome: string[];
   links: Link[];
-  gallery: Media[];
 }
 
 export interface Project {

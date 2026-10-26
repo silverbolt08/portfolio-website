@@ -13,57 +13,51 @@ npm run build      # typecheck + production build into dist/
 npm run preview    # serve dist/ at http://localhost:4173
 ```
 
-`dist/` is a static site: upload it to any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages, S3).
-Because case studies live at `#work/<id>` (a hash, not a route), no server rewrites are needed.
+`dist/` is a static site with relative paths, so it works from a domain root or a sub-folder.
+Case studies live at `#work/<id>` (a hash, not a route), so no server rewrites are needed.
 
-## Replace the placeholders
+## Deploy
+
+**GitHub Pages:** push to `main`, then set repository Settings → Pages → Source to "GitHub Actions".
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) builds and publishes on every push.
+
+**Anywhere else** (Netlify, Vercel, Cloudflare Pages, S3): build command `npm run build`, output folder `dist`.
+Set the environment variable `SITE_URL` to the final address (e.g. `https://shivansh.dev/`) so the canonical link
+and the link-preview image are absolute. LinkedIn, X and WhatsApp previews need that.
+
+## Editing content
 
 **Everything you'd edit is in [`src/content.ts`](src/content.ts).** Components never hold copy or asset paths.
+The page title, description, link-preview tags, structured data and the no-JavaScript fallback are written
+from the same file at build time ([`vite.config.ts`](vite.config.ts)).
 
-### Links
+### Pictures and drawings
 
-```ts
-contact: {
-  email: 'shivanshsingh2307@gmail.com',
-  github:   { label: 'GitHub',   href: 'https://github.com/…',   external: true },
-  linkedin: { label: 'LinkedIn', href: 'https://linkedin.com/in/…', external: true },
-  resume:   { label: 'Resume',   href: '/media/shivansh-singh-resume.pdf', external: true },
-},
-```
-
-Put the resume PDF in `public/media/`. Case-study links (`caseStudy.links`) work the same way.
-
-### Pictures and recordings
-
-Every visual is a `Media` entry. Today they are `kind: 'placeholder'` and the site draws a still for each (agent
-graph, dashboard roles, telemetry, brain map, RNA hairpin, cell clusters…), captioned with the asset that belongs there.
-To swap one in:
-
-1. Put the file in `public/media/` (WebP or AVIF for stills, MP4/WebM for loops; keep loops short and muted).
-2. Change the entry:
+Cards and minor-works previews are **drawings** in the site's palette (`drawing('agents', alt)`, see
+[`src/lib/motifs/`](src/lib/motifs/)). Each project's real picture is its `caseStudy.cover`, shown whole when the
+case study opens:
 
 ```ts
-// still
-visual: { kind: 'image', src: '/media/gravityos.webp', alt: 'GravityOS turning one brief into three platform drafts', label: '', aspect: '16/9' },
-// loop (the brain map recording, for example)
-visual: { kind: 'video', src: '/media/brain-map.mp4', poster: '/media/brain-map.webp', alt: 'Brain map with the most affected regions glowing', label: '', aspect: '16/9' },
+cover: image('media/Picasso.webp', 'What the picture shows', 1280, 853),
 ```
 
-`alt` is read by screen readers, so describe what the picture shows. Card visuals are 16:9;
-the minor-works previews (`minorWorks.items[].preview`) are 4:3. Galleries inside case studies
-(`caseStudy.gallery`) take any of the four aspects.
+Put files in `public/media/`, reference them **without** a leading slash, and pass the pixel size so the space is
+reserved before the file loads. Prefer WebP (`assets/originals/` keeps the full-size sources, which are not
+shipped). `alt` is read by screen readers, so describe what the picture shows. `kind: 'video'` with `src` and
+`poster` works the same way for loops (keep them short and muted).
 
-### Still to confirm
+Wrap any manifesto word in `*asterisks*` to make it a gold italic emphasis.
 
-Search `content.ts` for `TODO`:
+### Worth a final read
 
-- **Project years** for Electricity Bill Spike Diagnosis, Brain Gene-Expression Map and the scRNA-seq Pipeline.
-- **scRNA-seq stack** still reads "Placeholder: add stack"; it and the brain map have no public links yet.
-- **Angry Birds and Fire Detector blurbs** are placeholders.
+These were filled from context, not from Shivansh directly:
 
-Cards deliberately keep their drawn placeholders; each project's real picture is its `caseStudy.cover`, shown when
-the case study opens (Picasso has none yet, so it shows the drawing). Wrap any manifesto word in `*asterisks*` to make
-it a gold italic emphasis.
+- Years for Electricity Bill Spike Diagnosis (2026), Brain Gene-Expression Map (2025) and scRNA-seq (2025).
+- scRNA-seq stack (`R`, `MAST`).
+- Angry Birds Clone and CV-Based Fire Detector blurbs (they only say what the titles say).
+- Picasso's stack reads Python, FastAPI, React, LLMs (from the CV); its architecture picture lists React,
+  TypeScript, Recharts, Tailwind, LangChain and Gemini.
+- The CV in `public/media/` is public once deployed, including the phone number on it.
 
 ## How it is put together
 
@@ -73,8 +67,8 @@ src/
   main.ts           renders everything, runs the preloader, then builds all motion in one gsap.matchMedia()
   sections/         one module per act: render(content) → HTML, animate(conditions) → its ScrollTriggers
   ui/               persistent layer: monogram, menu, clock, section counter + progress line, cursor
-  lib/              gsap setup, Lenis, shared scroll velocity, marquee loop, magnetic, a11y helpers, placeholders
-  lib/motifs/       the drawn placeholder stills (SVG)
+  lib/              gsap setup, Lenis, shared scroll velocity, marquee loop, magnetic, a11y helpers, media rendering
+  lib/motifs/       the drawings on cards, previews and beside the numbers (SVG)
   styles/           tokens (colours, type, spacing), base, UI
 ```
 

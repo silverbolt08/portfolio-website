@@ -1,19 +1,17 @@
 /**
  * Every word and every asset reference on the site lives in this file.
  *
- * To replace a placeholder visual, change its Media entry:
- *   { kind: 'image', src: '/media/gravityos.webp', alt: '…', … }
- *   { kind: 'video', src: '/media/brain-map.mp4', poster: '/media/brain-map.webp', alt: '…', … }
- * Put the files in /public/media. Nothing else needs to change.
- *
- * Items marked TODO are sample values that need confirming before launch.
+ * Cards and minor-works previews are drawn in the site's own palette (`drawing`); the real pictures
+ * (`image`) open with each case study. To use a real picture somewhere else, swap the Media entry:
+ *   image('media/gravityos.webp', 'What the picture shows', width, height)
+ * Files go in /public/media and are referenced without a leading slash, so the site works from any folder.
  */
 import type { Media, Motif, SiteContent } from './types';
 
-const placeholder = (motif: Motif, label: string, alt: string, aspect: Media['aspect'] = '16/9'): Media => ({
-  kind: 'placeholder',
+/** A still drawn in the site's palette (see lib/motifs). */
+const drawing = (motif: Motif, alt: string, aspect: Media['aspect'] = '16/9'): Media => ({
+  kind: 'drawing',
   motif,
-  label,
   alt,
   aspect,
 });
@@ -23,7 +21,6 @@ const image = (src: string, alt: string, width: number, height: number): Media =
   kind: 'image',
   src,
   alt,
-  label: '',
   aspect: 'auto',
   width,
   height,
@@ -53,7 +50,7 @@ export const content: SiteContent = {
     email: EMAIL,
     github: { label: 'GitHub', href: 'https://github.com/silverbolt08', external: true },
     linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/silverbolt08', external: true },
-    resume: { label: 'Resume', href: '/media/Shivansh_Singh_CV.pdf', external: true },
+    resume: { label: 'Resume', href: 'media/Shivansh_Singh_CV.pdf', external: true },
   },
 
   nav: [
@@ -114,7 +111,7 @@ export const content: SiteContent = {
   work: {
     heading: 'Selected work',
     intro: 'Six projects, from multi-agent pipelines in production to gene expression read one cell at a time.',
-    // Cards keep their drawn placeholders; `caseStudy.cover` is the real picture shown when a case study is opened.
+    // Cards show drawings; `caseStudy.cover` is the real picture shown when a case study is opened.
     projects: [
       {
         id: 'gravityos',
@@ -130,13 +127,13 @@ export const content: SiteContent = {
           'Instagram: 3 concepts, 3 drafts, 1 winning carousel with 6 design briefs.',
           'Twitter/X: up to 10 variants (5 angles × 2) with automated winner selection.',
         ],
-        visual: placeholder('agents', 'GravityOS run: agent graph or output carousel, 16:9 still or loop', 'Diagram of eleven agents across three pipelines feeding a critic loop'),
+        visual: drawing('agents', 'Diagram of eleven agents across three pipelines feeding a critic loop'),
         caseStudy: {
           cover: image(
-            '/media/GravityOS_Agent_Graph.png',
+            'media/GravityOS_Agent_Graph.webp',
             'GravityOS agent graph: a CLI brief initialises the state, the Brand DNA Builder feeds a platform router, and the Instagram, LinkedIn and Twitter/X branches each run strategy, content, critic and revision nodes until they pass or reach the revision cap',
-            4622,
-            1452,
+            2800,
+            880,
           ),
           overview:
             'GravityOS is a multi-agent marketing content platform. It takes a single company brief and produces publication-ready content for Instagram, LinkedIn and Twitter/X, with brand analysis, drafting and review handled by 11 LLM agents.',
@@ -149,10 +146,6 @@ export const content: SiteContent = {
           stack: ['Python', 'LangGraph', 'OpenAI APIs'],
           outcome: ['11 agents, 3 pipelines, one brief in.', 'Bounded revision cost: never more than 3 critic cycles per piece.'],
           links: [{ label: 'Source on GitHub', href: 'https://github.com/silverbolt08/GravityOS', external: true }],
-          gallery: [
-            placeholder('agents', 'Pipeline diagram, full width', 'GravityOS pipeline diagram'),
-            placeholder('agents', 'Generated Instagram carousel, 4:3', 'Generated carousel', '4/3'),
-          ],
         },
       },
       {
@@ -168,8 +161,14 @@ export const content: SiteContent = {
           'A deterministic Density & Placement Engine maps 3 chart types across 3 sizing tiers into 4 structural layout roles.',
           'Zero manual configuration.',
         ],
-        visual: placeholder('layout', 'Picasso: a generated dashboard, 16:9 screenshot', 'Dashboard layout assembled from four structural roles'),
+        visual: drawing('layout', 'Dashboard layout assembled from four structural roles'),
         caseStudy: {
+          cover: image(
+            'media/Picasso.webp',
+            'Picasso architecture: KPI data, business intent and a visual theme go into a LangChain-orchestrated intelligence layer of five engines (semantic understanding, priority, density and layout, theme DNA, composition) that outputs an adaptive dashboard, supported by Gemini, a data parser, a Recharts chart engine, a theme system, a responsive engine and a performance layer',
+            1280,
+            853,
+          ),
           overview:
             'Picasso is an AI dashboard orchestrator. Describe the KPIs you care about in plain language and it returns a fully structured dashboard in under 40 seconds.',
           approach: [
@@ -182,17 +181,13 @@ export const content: SiteContent = {
             { label: 'Live site', href: 'https://silverbolt08.github.io/Picasso/', external: true },
             { label: 'Source on GitHub', href: 'https://github.com/silverbolt08/Picasso', external: true },
           ],
-          gallery: [
-            placeholder('layout', 'Generated dashboard, full width', 'Picasso dashboard'),
-            placeholder('layout', 'Placement engine roles, 4:3', 'Placement roles', '4/3'),
-          ],
         },
       },
       {
         id: 'bill-spike',
         index: '03',
         title: 'Electricity Bill Spike Diagnosis',
-        year: '2026', // TODO confirm
+        year: '2026',
         tags: ['DuckDB', 'LangGraph', 'FastAPI', 'Gemini'],
         outcome: 'Explains why an industrial electricity bill spiked, across tariff, volume, mix, weather and waste, with zero hallucinated numbers.',
         facts: [
@@ -201,10 +196,10 @@ export const content: SiteContent = {
           'Gemini is confined to edge classification and executive writing.',
           'A regex-validated number registry enforces zero numerical hallucination.',
         ],
-        visual: placeholder('telemetry', 'Variance waterfall or diagnosis report, 16:9 screenshot', 'Interval telemetry trace above a cost-variance waterfall'),
+        visual: drawing('telemetry', 'Interval telemetry trace above a cost-variance waterfall'),
         caseStudy: {
           cover: image(
-            '/media/Electricity_Bill.png',
+            'media/Electricity_Bill.webp',
             'Waterfall chart, "What moved the bill: +15.0% in total": tariff +8.7 points, production volume −0.1, product mix +3.8, weather +1.2 and controllable waste +1.4, with a table of ranges and a list of actions ranked by payback',
             1908,
             889,
@@ -219,17 +214,13 @@ export const content: SiteContent = {
           stack: ['DuckDB', 'LangGraph', 'FastAPI', 'Gemini'],
           outcome: ['Five-way variance attribution per bill.', 'Zero numerical hallucination by construction.'],
           links: [{ label: 'Source on GitHub', href: 'https://github.com/silverbolt08/RNG', external: true }],
-          gallery: [
-            placeholder('telemetry', 'Interval telemetry view, full width', 'Telemetry view'),
-            placeholder('telemetry', 'Executive summary, 4:3', 'Executive summary', '4/3'),
-          ],
         },
       },
       {
         id: 'brain-map',
         index: '04',
         title: 'Brain Gene-Expression Map',
-        year: '2025', // TODO confirm
+        year: '2025',
         tags: ['Python', 'Allen Human Brain Atlas', 'PCA', 'k-means'],
         outcome: "Where the genes behind Alzheimer's and Parkinson's are most active across the human brain, mapped in 3D.",
         facts: [
@@ -238,10 +229,10 @@ export const content: SiteContent = {
           "3D expression maps in MNI coordinates, coloured by cluster or by Alzheimer's score.",
           "Genes ranked as candidate biomarkers by Z-score: APP led for Alzheimer's (+0.20); LRRK2 (+0.541) and PARK7 (+0.511) for Parkinson's.",
         ],
-        visual: placeholder('brain', 'Screen recording of the 3D brain map, as video or image sequence', 'Brain outline with glowing regions where affected cells concentrate'),
+        visual: drawing('brain', 'Brain outline with glowing regions where affected cells concentrate'),
         caseStudy: {
           cover: image(
-            '/media/Brain_3d.png',
+            'media/Brain_3d.webp',
             "3D scatter of Allen Human Brain Atlas tissue samples in MNI coordinates, coloured from blue to red by Alzheimer's gene-expression score",
             973,
             880,
@@ -263,7 +254,6 @@ export const content: SiteContent = {
             'Next step: combine this bulk spatial data with single-cell RNA-seq to find cell-type-specific biomarkers.',
           ],
           links: [],
-          gallery: [placeholder('brain', 'Recording of the original 3D map', 'Brain map recording')],
         },
       },
       {
@@ -279,10 +269,10 @@ export const content: SiteContent = {
           'BLASTN integration and client-side NCBI/PubMed lookups.',
           'The Aptamer Knowledge Graph Agent answers natural-language queries about antiviral RNA aptamers.',
         ],
-        visual: placeholder('aptamer', 'AptViralDB search screen, 16:9 screenshot', 'Secondary structure of an RNA aptamer hairpin'),
+        visual: drawing('aptamer', 'Secondary structure of an RNA aptamer hairpin'),
         caseStudy: {
           cover: image(
-            '/media/AptViralDB.jpg',
+            'media/AptViralDB.jpg',
             'AptViralDB graphical abstract: collect studies from PubMed, Google Scholar and existing databases (1992 to 2025), curate validated antiviral aptamer sequences, analyse them with search, sequence and structure tools and a knowledge graph, and discover aptamer-target relationships',
             375,
             375,
@@ -302,17 +292,13 @@ export const content: SiteContent = {
             { label: 'AptViralDB', href: 'https://webs.iiitd.edu.in/raghava/aptviraldb/', external: true },
             { label: 'AptViralDB paper', href: 'https://www.sciencedirect.com/science/article/pii/S2162253126002829', external: true },
           ],
-          gallery: [
-            placeholder('aptamer', 'Database search screen, full width', 'Database search'),
-            placeholder('aptamer', 'Agent conversation, 4:3', 'Agent conversation', '4/3'),
-          ],
         },
       },
       {
         id: 'scrna-seq',
         index: '06',
         title: 'scRNA-seq Pipeline',
-        year: '2025', // TODO confirm
+        year: '2025',
         tags: ['scRNA-seq', 'MAST', 'Regulatory networks'],
         outcome: "Single-cell RNA-seq analysis across knee osteoarthritis, Alzheimer's and kidney datasets.",
         facts: [
@@ -321,13 +307,13 @@ export const content: SiteContent = {
           'Maps lipid metabolic enzymes.',
           'Builds transcription-factor-to-target regulatory networks.',
         ],
-        visual: placeholder('cells', 'UMAP of annotated cell types, 16:9 figure', 'Clusters of single cells coloured by cell type'),
+        visual: drawing('cells', 'Clusters of single cells coloured by cell type'),
         caseStudy: {
           cover: image(
-            '/media/celltype_umap_figure.png',
+            'media/celltype_umap_figure.webp',
             'UMAPs of chondrocyte cell types in control and osteoarthritis samples, above a bar chart of cell-type composition in which osteoarthritis cells make up most of every type',
-            2972,
-            1748,
+            2400,
+            1412,
           ),
           overview: "A single-cell RNA-seq analysis pipeline applied to knee osteoarthritis, Alzheimer's and kidney datasets.",
           approach: [
@@ -335,13 +321,9 @@ export const content: SiteContent = {
             'Lipid metabolic enzymes are mapped across cell types.',
             'Transcription-factor-to-target regulatory networks are built per condition.',
           ],
-          stack: ['Placeholder: add stack'],
+          stack: ['R', 'MAST'],
           outcome: ['Three disease datasets through one pipeline.'],
           links: [],
-          gallery: [
-            placeholder('cells', 'UMAP figure, full width', 'UMAP'),
-            placeholder('cells', 'Regulatory network figure, 4:3', 'Regulatory network', '4/3'),
-          ],
         },
       },
     ],
@@ -409,22 +391,22 @@ export const content: SiteContent = {
         blurb:
           'IMF CDIS data as directed, weighted cross-border investment flows across 170+ economies: centralities, Louvain communities, motif analysis and temporal shock-propagation simulations (e.g. COVID-19) on hub dominance and resilience.',
         tags: ['Network science', 'IMF CDIS', 'Louvain'],
-        preview: placeholder('network', 'Network graph of investment flows, 4:3', 'Directed network of economies', '4/3'),
+        preview: drawing('network', 'Directed network of economies', '4/3'),
       },
       {
         id: 'angry-birds',
         title: 'Angry Birds Clone',
-        blurb: 'Placeholder blurb: describe the build. Meanwhile, the slingshot works.',
+        blurb: 'A slingshot physics game. Press Play to pull back the bird and knock the tower down.',
         tags: ['Game', 'Physics'],
-        preview: placeholder('slingshot', 'Gameplay screenshot, 4:3', 'Slingshot and a stack of blocks', '4/3'),
+        preview: drawing('slingshot', 'Slingshot and a stack of blocks', '4/3'),
         easterEgg: 'slingshot',
       },
       {
         id: 'fire-detector',
         title: 'CV-Based Fire Detector',
-        blurb: 'Placeholder blurb: a computer-vision fire detector. Add the model, data and results.',
+        blurb: 'A computer-vision model that spots fire in camera frames.',
         tags: ['Computer vision'],
-        preview: placeholder('flame', 'Detection frame with bounding box, 4:3', 'Flame with a detection box', '4/3'),
+        preview: drawing('flame', 'Flame with a detection box', '4/3'),
       },
     ],
   },

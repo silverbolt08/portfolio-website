@@ -4,7 +4,7 @@ import type { Section } from './section';
 import type { Conditions } from '../lib/media';
 import { gsap, SplitText } from '../lib/gsap';
 import { esc } from '../lib/html';
-import { placeholder } from '../lib/placeholder';
+import { renderMedia } from '../lib/render-media';
 import { scroll } from '../lib/scroll';
 import { initCase, openCase, setCaseMotion, hashId } from './case-study';
 
@@ -22,7 +22,7 @@ const card = (p: Project) => `
         <p class="card__outcome">${esc(p.outcome)}</p>
         <ul class="card__tags">${p.tags.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
       </div>
-      <div class="card__visual">${placeholder(p.visual)}</div>
+      <div class="card__visual">${renderMedia(p.visual)}</div>
       <div class="card__dim" aria-hidden="true"></div>
     </article>
   </li>`;
