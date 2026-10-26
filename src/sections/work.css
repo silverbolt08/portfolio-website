@@ -64,7 +64,8 @@
 
 .card__mask {
   display: block;
-  overflow: clip;
+  overflow-x: visible;
+  overflow-y: clip;
 }
 
 .card__index {

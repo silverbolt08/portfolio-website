@@ -26,7 +26,8 @@
 }
 
 .mw__mask {
-  overflow: clip;
+  overflow-x: visible;
+  overflow-y: clip;
   padding-bottom: 0.06em;
 }
 

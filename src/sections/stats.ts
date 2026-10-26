@@ -4,6 +4,7 @@ import type { Section } from './section';
 import type { Conditions } from '../lib/media';
 import { gsap } from '../lib/gsap';
 import { esc } from '../lib/html';
+import { statArt } from '../lib/motifs/stats';
 
 const format = (s: Stat, v: number) => v.toFixed(s.decimals);
 
@@ -19,7 +20,7 @@ export const stats: Section = {
       <h2 id="stats-title" class="sr-only">${esc(c.stats.heading)}</h2>
       <ul class="stats__list">${items
         .map(
-          (s) => `<li class="stat">
+          (s, i) => `<li class="stat">
             <span class="sr-only">${esc(`${s.prefix ?? ''}${format(s, s.value)}${s.suffix} ${s.label}`)}</span>
             <div class="stat__visual" aria-hidden="true">
               <div class="stat__mask">
@@ -30,6 +31,7 @@ export const stats: Section = {
               </div>
               <div class="stat__mask stat__mask--label"><p class="stat__label">${esc(s.label)}</p></div>
             </div>
+            <div class="stat__art" aria-hidden="true">${statArt[i]?.() ?? ''}</div>
           </li>`,
         )
         .join('')}</ul>
@@ -67,6 +69,12 @@ export const stats: Section = {
       },
     });
 
+    // Drawings start hidden (explicit starting states; see manifesto.ts on staggered fromTo and refreshes)
+    const arts = stats.map((el) => el.querySelector<HTMLElement>('.stat__art')!);
+    gsap.set(arts.slice(1), { autoAlpha: 0 });
+    gsap.set(section.querySelectorAll('.stat__art .art-line'), { opacity: 0 });
+    gsap.set(section.querySelectorAll('.stat__art .art-bit'), { opacity: 0, scale: 0.4, transformOrigin: '50% 50%' });
+
     stats.forEach((el, i) => {
       const s = items[i];
       const num = el.querySelector<HTMLElement>('.stat__num')!;
@@ -82,7 +90,15 @@ export const stats: Section = {
       if (i > 0) {
         const prev = stats[i - 1];
         tl.to(prev.querySelectorAll('.stat__num, .stat__label'), { yPercent: -125, duration: 0.25, ease: 'power2.in' }, at);
+        tl.to(arts[i - 1], { autoAlpha: 0, y: -30, duration: 0.2, ease: 'power2.in' }, at);
+        tl.fromTo(arts[i], { y: 30 }, { autoAlpha: 1, y: 0, duration: 0.25, ease: 'power3.out' }, `${at}+=0.12`);
       }
+      // The drawing builds itself as the number counts: lines first, then the nodes and bars
+      tl.to(arts[i].querySelectorAll('.art-line'), { opacity: 1, duration: 0.25, stagger: { amount: 0.25 } }, `${at}+=0.15`).to(
+        arts[i].querySelectorAll('.art-bit'),
+        { opacity: 1, scale: 1, duration: 0.2, stagger: { amount: 0.3 }, ease: 'power3.out' },
+        `${at}+=0.2`,
+      );
       // The first stat is already on stage (at zero) when the section arrives; the others rise in.
       if (i > 0) tl.fromTo(num, { yPercent: 125 }, { yPercent: 0, duration: 0.3, ease: 'power3.out' }, `${at}+=0.15`);
       // S2: count up

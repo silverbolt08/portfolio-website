@@ -104,5 +104,5 @@ src/
 ## Checks run before release
 
 Lighthouse 12 on the production build (`npm run build && npm run preview`): desktop Performance 100,
-Accessibility 100, Best Practices 100, SEO 100; mobile 96–98 / 100 / 100 / 100 across runs. CLS 0 (the three
+Accessibility 100, Best Practices 100, SEO 100; mobile 95–98 / 100 / 100 / 100 across runs. CLS 0 (the three
 first-screen fonts are preloaded by a small plugin in `vite.config.ts`).

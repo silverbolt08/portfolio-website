@@ -297,7 +297,11 @@ export const content: SiteContent = {
           ],
           stack: ['React', 'TypeScript', 'Tailwind', 'PHP', 'MySQL'],
           outcome: ['Two public-facing databases and one research agent.'],
-          links: [{ label: 'AptViralDB paper', href: 'https://www.sciencedirect.com/science/article/pii/S2162253126002829', external: true }],
+          links: [
+            { label: 'AptCancerDB', href: 'https://webs.iiitd.edu.in/raghava/aptcancerdb/', external: true },
+            { label: 'AptViralDB', href: 'https://webs.iiitd.edu.in/raghava/aptviraldb/', external: true },
+            { label: 'AptViralDB paper', href: 'https://www.sciencedirect.com/science/article/pii/S2162253126002829', external: true },
+          ],
           gallery: [
             placeholder('aptamer', 'Database search screen, full width', 'Database search'),
             placeholder('aptamer', 'Agent conversation, 4:3', 'Agent conversation', '4/3'),

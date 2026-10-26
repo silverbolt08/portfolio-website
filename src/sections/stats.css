@@ -19,9 +19,11 @@
   column-gap: calc(var(--gutter) * 2);
 }
 
+/* Clip top and bottom only: the rise is vertical, and glyphs and the landing overshoot may spill sideways */
 .stat__mask {
-  overflow: clip;
-  padding-top: 0.08em;
+  overflow-x: visible;
+  overflow-y: clip;
+  padding-top: 0.12em;
 }
 
 .stat__num {
@@ -56,7 +58,8 @@
   letter-spacing: -0.015em;
 }
 
-.stats__ticks {
+.stats__ticks,
+.stat__art {
   display: none;
 }
 
@@ -82,6 +85,21 @@
   font-size: var(--fs-statement);
   line-height: 1.05;
   letter-spacing: -0.025em;
+}
+
+/* The drawing for each stat fills the right side of the stage, above the label */
+.stats.is-staged .stat__art {
+  position: absolute;
+  top: calc(var(--gutter) * 4 + 56px);
+  right: var(--gutter);
+  display: block;
+  width: min(42vw, 640px);
+  height: min(36svh, 27vw);
+}
+
+.stat__art svg {
+  width: 100%;
+  height: 100%;
 }
 
 .stats.is-staged .stats__ticks {
@@ -118,7 +136,14 @@
   }
 
   .stats.is-staged {
-    align-content: center;
+    align-content: end;
+  }
+
+  .stats.is-staged .stat__art {
+    left: var(--gutter);
+    width: auto;
+    top: calc(var(--gutter) * 4 + 40px);
+    height: 30svh;
   }
 
   .stats.is-staged .stat__num {

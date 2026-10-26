@@ -139,7 +139,8 @@ export const experience: Section = {
       if (i === 0) return;
       const at = gsap.utils.clamp(0, 0.95, (p.offsetLeft - window.innerWidth * 0.75) / d);
       const year = p.querySelector('.exp__year');
-      if (year) tl.fromTo(year, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.18, ease: 'power2.out' }, at);
+      // Negative insets: the reveal must not crop the glyphs' overhang past their (tightly tracked) box
+      if (year) tl.fromTo(year, { clipPath: 'inset(-20% 100% -20% -20%)' }, { clipPath: 'inset(-20% -20% -20% -20%)', duration: 0.18, ease: 'power2.out' }, at);
       tl.fromTo(
         p.querySelectorAll('.exp__info > *, .exp__awards-title, .exp__award'),
         { y: 40, opacity: 0 },
